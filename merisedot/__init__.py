@@ -22,9 +22,12 @@ def main(_: Context) -> None:
 @main.command("mcd")
 @click.pass_context
 @click.argument("path")
-@click.option("-g", "--graph", help="Show the MCD graph in a PNG")
-@click.option("-e", "--editor", help="Open editing options for the MCD")
-def mcd(ctx: Context, path: str, **kwargs) -> None:
+@click.option(
+    "-g", "--graph", help="Show the MCD graph in a PNG", is_flag=True)
+@click.option(
+    "-e", "--edit", help="Open editing options for the MCD", is_flag=True)
+@click.option("-n", "--new", help="create a new MCD", is_flag=True)
+def mcd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
     """Interact with and MCD graph.
 
     This graph needs to be stored at PATH, so the software can read it.
@@ -32,7 +35,7 @@ def mcd(ctx: Context, path: str, **kwargs) -> None:
 
     Please see the options to check how one can interact with such graph.
     """
-    mcd_cmd(_CONSOLE, ctx, path, kwargs)
+    mcd_cmd(_CONSOLE, ctx, path, g, e, n)
 
 
 @main.command("mld")
