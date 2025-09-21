@@ -3,6 +3,11 @@ from merisedot.model.errors import *
 
 class Entity:
     """MCD Entity model.
+    This does not take in the concept of foreign keys, as it is irrelevant
+    in a Merise MCD schematic.
+
+    For MLD and SQL, we'll use conversion methods, please do use this as
+    an MCD wrapper.
     """
 
     def __init__(self, name: str) -> None:
@@ -48,6 +53,19 @@ class Entity:
         f_t = f_t if not f_type else f_type
         f_p = f_p if primary == 0 else True if primary == 1 else False
         self._fields.update(name, (f_t, f_p))
+
+    def delete_field(self, f_name: str) -> None:
+        """Remove field from an existing Entity.
+        The field name acts as its ID. It is not case-sensitive.
+
+        :param f_name: the name of the field to delete.
+
+        :raises FieldNotFoundException: if there is no such field.
+        """
+        name = f_name.lower()
+        if not (name in self._fields.keys()):
+            raise FieldNotFoundException(f"field {name} not found")
+        self._fields.pop(name)
 
     def __str__(self) -> str:
         return ""
