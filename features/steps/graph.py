@@ -1,6 +1,7 @@
-import random
+import json, random
 from behave import *
 from merise_dot.model import Graph
+from merise_dot.model.mcd import Entity
 
 
 @given("the graph currently does not exist")
@@ -18,6 +19,11 @@ def init_graph(context, name: str) -> None:
 def init_entities(context, n: int) -> None:
     for i in range(n):
         context.graph.add_entity(f"e_{i}")
+
+
+@given("an entity named \"{name}\" in graph")
+def g_init_spec_entity(context, name: str) -> None:
+    context.graph.add_entity(name)
 
 
 @given("the graph has {n:d} links")
@@ -59,6 +65,16 @@ def attempt_remove_link(context) -> None:
         context.exception = Exception
 
 
+@when("we fetch the \"{name}\" entity")
+def g_get_entity(context, name: str) -> None:
+    context.g_entity = context.graph.get_entity(name)
+
+
+@when("we dump the graph into a string")
+def dump_graph(context) -> None:
+    context.g_dump = str(context.graph)
+
+
 @then("the graph exists")
 def check_graph(context) -> None:
     assert context.graph
@@ -83,3 +99,28 @@ def check_graph_links(context, n: int) -> None:
 @then("an exception occured")
 def crash_happened(context) -> None:
     assert context.exception
+
+
+@then("an entity is returned")
+def g_got_entity(context) -> None:
+    assert context.g_entity
+
+
+@then("the name of the entity is \"{name}\"")
+def g_entity_name(context, name: str) -> None:
+    assert context.g_entity._name == name
+
+
+@then("the string is valid JSON")
+def is_json(context) -> None:
+    context.json_g_dump = json.loads(context.g_dump)
+
+
+@then("the \"{tname}\" field is an empty table")
+def e_table_empty(context, tname: str) -> None:
+    assert context.json_g_dump[tname] == []
+
+
+@then("the name of the graph is \"{name}\"")
+def check_dump_graph_name(context, name: str) -> None:
+    assert context.json_g_dump["name"] == name

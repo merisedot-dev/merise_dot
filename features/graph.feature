@@ -25,12 +25,15 @@ Feature: MCD root graph handling.
     Scenario Outline: Fetch entity by name
         Given a graph named "test"
         And an entity named "<name>" in graph
-        When we try to get the "<name>" entity
+        When we fetch the "<name>" entity
         Then an entity is returned
-        And it's name is "<name>"
+        And the name of the entity is "<name>"
 
         Examples:
-            |name|
+            |name |
+            |kitty|
+            |12345|
+            |j    |
 
     Scenario Outline: Deleting entity from graph
         Given a graph named "test"
@@ -69,3 +72,22 @@ Feature: MCD root graph handling.
         And the graph has 0 links
         When we try to delete a link from graph
         Then an exception occured
+
+    Scenario: Writing an empty graph
+        Given a graph named "test"
+        And the graph has 0 entities
+        And the graph has 0 links
+        When we dump the graph into a string
+        Then the string is valid JSON
+        And the "entities" field is an empty table
+        And the "links" field is an empty table
+        And the name of the graph is "test"
+
+    Scenario Outline: Writing a filled graph
+        Given a graph named "<ng>"
+        And the graph has <nbe> entities
+        And the graph has <nbl> links
+        When we dump the graph into a string
+
+        Examples:
+            |ng|nbe|nbl|
