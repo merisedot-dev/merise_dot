@@ -4,13 +4,13 @@
 class FieldOverwiteException(Exception):
 
     def __init__(self, msg: str) -> None:
-        super(msg)
+        super().__init__(msg)
 
 
 class FieldNotFoundException(Exception):
 
     def __init__(self, msg: str) -> None:
-        super(msg)
+        super().__init__(msg)
 
 
 # Link exceptions
@@ -19,4 +19,4 @@ class FieldNotFoundException(Exception):
 class LinkOverwriteException(Exception):
 
     def __init__(self, name: str) -> None:
-        super(f"Link to {name} not found")
+        super().__init__(f"Link to {name} not found")

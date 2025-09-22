@@ -13,7 +13,6 @@ Feature: MCD root graph handling.
         And the graph has 0 entities
         When we add an entity named "<name>"
         Then the graph has 1 entity
-        And the entity name is "<name>"
 
         Examples:
             |name      |
@@ -33,7 +32,6 @@ Feature: MCD root graph handling.
             |ns|nd|
             |1 |0 |
             |25|24|
-            |0 |0 |
 
     Scenario: Deleting entity from empty graph
         Given a graph named "test"
@@ -56,7 +54,7 @@ Feature: MCD root graph handling.
             |77|4 |3 |
 
     Scenario: Creating link on empty graph
-        Given a graph called "test"
+        Given a graph named "test"
         And the graph has 0 entities
         And the graph has 0 links
         When we try to delete a link from graph

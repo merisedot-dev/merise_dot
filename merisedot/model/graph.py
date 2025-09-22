@@ -1,4 +1,4 @@
-from .mcd import Entity
+from .mcd import Entity, MCDLink
 from .errors import *
 
 
@@ -12,7 +12,7 @@ class Graph:
         self._name = name
         # MCD specifics
         self._entities: dict[str | Entity] = {}
-        # TODO add links
+        self._links: dict[str | MCDLink] = {}
 
     def parse(self, contents: str) -> None:
         pass # TODO
@@ -30,8 +30,14 @@ class Graph:
         if name in self._entities.keys():
             raise EntityDuplicataException(name)
         entity = Entity(name)
-        self._entities.update(name, entity)
+        self._entities[name] = entity
         return entity
+
+    def get_entity(self, e_name: str) -> Entity:
+        name = e_name.lower()
+        if not (name in self._entities.keys()):
+            raise EntityNotFoundException(name)
+        return self._entities[name]
 
     def del_entity(self, e_name: str) -> None:
         """Removes an entity from graph.
@@ -47,6 +53,22 @@ class Graph:
             raise EntityNotFoundException(name)
         self._entities.pop(name)
 
+    def add_link(self, l_name: str, ea: str, eb: str) -> None:
+        """Add a link between two entities on graph.
+        Link name acts as id. Not case-sensitive.
+
+        :param l_name: the name of the link to create.
+        :param ea: the name of the first entity linked.
+        :param eb: the name of the second entity linked.
+        """
+        name = l_name.lower()
+        if name in self._links.keys():
+            raise LinkDuplicataException(name)
+        link = MCDLink(name)
+        link.add_card(self.get_entity(ea), 0, -1)
+        link.add_card(self.get_entity(eb), 0, -1)
+        self._links[name] = link
+
     def __str__(self) -> str:
         # entities
         entities = "["
@@ -54,9 +76,13 @@ class Graph:
             entities += f"{str(e)},"
         entities[len(entities) - 1] = "]"
         # links
-        # TODO
+        links = "["
+        for (_, l) in self._links:
+            links += f"{str(l)},"
+        links[len(links) - 1] = "]"
         # assembling
         return f"""{{
             "name": "{self._name}",
-            "entities": {entities}
+            "entities": {entities},
+            "links: {links}
             }}"""

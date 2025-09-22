@@ -1,4 +1,6 @@
 from .errors import LinkOverwriteException
+from .entity import Entity
+
 
 class MCDLink:
 
@@ -7,18 +9,16 @@ class MCDLink:
         # moving parts
         self._entities: dict[str | (int, int)] = {}
 
-    def add_card(self, entity: str, min: int, max: int) -> None:
+    def add_card(self, entity: Entity, min: int, max: int) -> None:
         """Add cardinalities to link entity.
 
         :param entity:
         :param min:
         :param max:
-
-        :raises LinkOverwriteException:
         """
         if entity._name in self._entities.keys():
-            raise LinkOverwriteException(entity._name)
-        self._entities.update(entity._name, (min, max))
+            return # silent fail
+        self._entities[entity._name] = (min, max)
 
     def __str__(self) -> str:
         # cardinalities
