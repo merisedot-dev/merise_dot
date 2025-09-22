@@ -3,7 +3,7 @@
 let
   merisedot_version = "0.1.0";
 in python3Packages.buildPythonApplication {
-  pname = "merise-dot";
+  pname = "merise_dot";
   version = merisedot_version;
 
   src = ./.;

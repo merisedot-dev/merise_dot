@@ -22,6 +22,16 @@ Feature: MCD root graph handling.
             |123456    |
             |1test42   |
 
+    Scenario Outline: Fetch entity by name
+        Given a graph named "test"
+        And an entity named "<name>" in graph
+        When we try to get the "<name>" entity
+        Then an entity is returned
+        And it's name is "<name>"
+
+        Examples:
+            |name|
+
     Scenario Outline: Deleting entity from graph
         Given a graph named "test"
         And the graph has <ns> entities

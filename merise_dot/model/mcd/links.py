@@ -22,10 +22,10 @@ class MCDLink:
 
     def __str__(self) -> str:
         # cardinalities
-        cards = "["
+        cards = "{"
         for (k, (v1, v2)) in self._entities:
             cards += f"\"{k}\": [ {v1}, {v2} ]"
-        cards[len(cards) - 1] = "]"
+        cards[len(cards) - 1] = "}"
         # assembling
         return f"""{{
             "name": "{self._name}",

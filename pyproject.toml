@@ -1,5 +1,5 @@
 [project]
-name = "merisedot"
+name = "merise_dot"
 description = "Python port of the merisedot script"
 readme = "README.md"
 classifiers = [
@@ -22,8 +22,11 @@ test = [ "behave" ]
 requires = [ "setuptools" ]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+packages = [ "merise_dot" ]
+
 [project.scripts]
-"merise-dot" = "merisedot:main"
+"merise_dot" = "merise_dot:main"
 
 [tool.bumpver]
 current_version = "0.1.0"
@@ -35,7 +38,7 @@ push = true
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = [ 'current_version = "{version}"' ]
-"merise/__init__.py" = [ '__version__ = "{version}"' ]
+"merise_dot/__init__.py" = [ '__version__ = "{version}"' ]
 "default.nix" = [ 'merisedot_version = "{version}"' ]
 
 [tool.yapf]

@@ -1,6 +1,6 @@
 import random
 from behave import *
-from merisedot.model import Graph
+from merise_dot.model import Graph
 
 
 @given("the graph currently does not exist")
