@@ -13,7 +13,7 @@
   in {
     packages.default = pkgs.callPackage ./default.nix { };
     devShells.default = pkgs.mkShell {
-      name = "merise-dot";
+      name = "merise_dot";
       inputsFrom = [ self.packages.${system}.default ];
       buildInputs = with pkgs.python3Packages; with pkgs; [
         venvShellHook
