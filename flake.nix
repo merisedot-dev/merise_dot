@@ -11,7 +11,11 @@
   let
     pkgs = import nixpkgs {inherit system; };
   in {
+    # default build
     packages.default = pkgs.callPackage ./default.nix { };
+    checks.default = pkgs.callPackage ./checks.nix { };
+
+    # devShells for people who are lazy with env setup
     devShells.default = pkgs.mkShell {
       name = "merise_dot";
       inputsFrom = [ self.packages.${system}.default ];
