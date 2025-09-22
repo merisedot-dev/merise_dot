@@ -32,6 +32,8 @@ pipx install -e .
 
 ## Usage
 
-Each use case will be documented in the [docs] folder, please refer to it whenever you are in doubt.
+Each use case will be documented in the [features] folder, please refer to it whenever you are in doubt. The choice has been made to rely on instrumented testing, so the [Gherkin] test books also function as tests and documentation.
 
 [Nix]: https://nixos.org/
+[features]: ./features/
+[Gherkin]: https://cucumber.io/

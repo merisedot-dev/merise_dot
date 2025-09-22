@@ -19,6 +19,8 @@
         venvShellHook
         bumpver
         yapf
+        # test deps
+        behave
         # python deps
         rich
         click

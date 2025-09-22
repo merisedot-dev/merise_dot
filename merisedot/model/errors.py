@@ -1,19 +1,5 @@
-# Field exceptions
-
-
-class FieldOverwiteException(Exception):
-
-    def __init__(self, msg: str) -> None:
-        super(msg)
-
-
-class FieldNotFoundException(Exception):
-
-    def __init__(self, msg: str) -> None:
-        super(msg)
-
-
 # Graph exceptions
+
 
 
 class EntityDuplicataException(Exception):

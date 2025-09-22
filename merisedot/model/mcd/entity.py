@@ -1,4 +1,4 @@
-from merisedot.model.errors import *
+from .errors import *
 
 
 class Entity:
