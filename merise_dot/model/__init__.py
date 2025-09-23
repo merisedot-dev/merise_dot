@@ -1,2 +1,2 @@
-from .graph import Graph
+from .graph import *
 from .errors import *

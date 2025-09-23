@@ -82,12 +82,17 @@ Feature: MCD root graph handling.
         And the "entities" field is an empty table
         And the "links" field is an empty table
         And the name of the graph is "test"
+        And a graph can be parsed from the JSON
 
     Scenario Outline: Writing a filled graph
         Given a graph named "<ng>"
         And the graph has <nbe> entities
         And the graph has <nbl> links
         When we dump the graph into a string
+        Then the string is valid JSON
+        And a graph can be parsed from the JSON
 
         Examples:
-            |ng|nbe|nbl|
+            |ng  |nbe|nbl|
+            |test|3  |4  |
+            |mdot|12 |0  |

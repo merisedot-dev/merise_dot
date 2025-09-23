@@ -1,6 +1,6 @@
 import json, random
 from behave import *
-from merise_dot.model import Graph
+from merise_dot.model import Graph, graph_parse
 from merise_dot.model.mcd import Entity
 
 
@@ -124,3 +124,8 @@ def e_table_empty(context, tname: str) -> None:
 @then("the name of the graph is \"{name}\"")
 def check_dump_graph_name(context, name: str) -> None:
     assert context.json_g_dump["name"] == name
+
+
+@then("a graph can be parsed from the JSON")
+def check_valid_JSON(context) -> None:
+    graph_parse(context.g_dump)

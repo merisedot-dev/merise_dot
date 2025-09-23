@@ -1,4 +1,5 @@
-from .mcd import Entity, MCDLink
+import json
+from .mcd import Entity, MCDLink, entity_parse, link_parse
 from .errors import *
 
 
@@ -13,9 +14,6 @@ class Graph:
         # MCD specifics
         self._entities: dict[str | Entity] = {}
         self._links: dict[str | MCDLink] = {}
-
-    def parse(self, contents: str) -> None:
-        pass # TODO
 
     def add_entity(self, e_name: str) -> Entity:
         """Create a new entity in the graph. Links not included.
@@ -70,19 +68,28 @@ class Graph:
         self._links[name] = link
 
     def __str__(self) -> str:
-        # entities
-        entities = "["
-        for (_, e) in self._entities:
-            entities += f"{str(e)},"
-        entities[len(entities) - 1] = "]"
-        # links
-        links = "["
-        for (_, l) in self._links:
-            links += f"{str(l)},"
-        links[len(links) - 1] = "]"
-        # assembling
         return f"""{{
             "name": "{self._name}",
-            "entities": {entities},
-            "links: {links}
+            "entities": [{",".join(
+                [str(e) for (k,e) in self._entities.items()])}],
+            "links": [{",".join(
+                [str(l) for (k,l) in self._links.items()])}]
             }}"""
+
+
+def graph_parse(info: str) -> Graph:
+    """Parsing a new graph from a file's content.
+
+    :param info:
+    """
+    json_info = json.loads(info)
+    g = Graph(json_info["name"])
+    # adding entities
+    for entity in json_info["entities"]:
+        en = entity_parse(entity)
+        g._entities[en._name] = en
+    # adding links
+    for link in json_info["links"]:
+        lk = link_parse(link)
+        g._links[lk._name] = lk
+    return g

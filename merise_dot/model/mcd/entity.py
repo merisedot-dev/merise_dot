@@ -80,17 +80,23 @@ class Entity:
         self._fields.pop(name)
 
     def __str__(self) -> str:
-        # fields
-        fields = ""
-        for (k, (t, p)) in self._fields:
-            fields += f"""{{
-                "name": "{k}",
-                "primary": {p},
-                "type": "{t}"
-                }},"""
-        fields[len(fields) - 1] = ""
-        # assembling
+        fields = ",".join(
+            [
+                f"""
+                {{
+                    "name": "{f}",
+                    "primary": {p},
+                    "type": "{t}"
+                }}""" for (f, (t, p)) in self._fields.items()
+            ])
         return f"""{{
             "name": "{self._name}",
-            "fields": {fields}
+            "fields": [{fields}]
             }}"""
+
+
+def entity_parse(info: dict[str | str, list[dict]]) -> Entity:
+    en = Entity(info["name"])
+    for field in info["fields"]:
+        en.add_field(field["name"], field["type"], bool(field["primary"]))
+    return en

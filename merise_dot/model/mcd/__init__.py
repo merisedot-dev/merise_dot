@@ -1,3 +1,3 @@
-from .entity import Entity
-from .links import MCDLink
+from .entity import *
+from .links import *
 from .errors import *
