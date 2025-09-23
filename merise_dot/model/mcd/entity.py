@@ -28,7 +28,7 @@ class Entity:
         if name in self._fields.keys():
             raise FieldOverwiteException(f"field {name} already present")
             # this segmentation is for semantics only
-        self._fields.update(name, (f_type, primary))
+        self._fields[name] = (f_type, primary)
 
     def edit_field(
             self, f_name: str, f_type: str = "", primary: int = 0) -> None:
@@ -54,6 +54,18 @@ class Entity:
         f_p = f_p if primary == 0 else True if primary == 1 else False
         self._fields.update(name, (f_t, f_p))
 
+    def get_field(self, f_name: str) -> (str, bool):
+        """Fetch field from entity.
+
+        :param f_name:
+
+        :raises FieldNotFoundException:
+        """
+        name = f_name.lower()
+        if not (name in self._fields.keys()):
+            raise FieldNotFoundException(f"Field {name} not found")
+        return self._fields[name]
+
     def delete_field(self, f_name: str) -> None:
         """Remove field from an existing Entity.
         The field name acts as its ID. It is not case-sensitive.
@@ -70,7 +82,7 @@ class Entity:
     def __str__(self) -> str:
         # fields
         fields = ""
-        for (k, (t,p)) in self._fields:
+        for (k, (t, p)) in self._fields:
             fields += f"""{{
                 "name": "{k}",
                 "primary": {p},

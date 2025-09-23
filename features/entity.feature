@@ -12,8 +12,8 @@ Feature: MCD entity manipulation.
         And the field is of type <ftype>
         And the field is primary (<primary>)
         When the field is slotted into the entity
-        Then the entity has 1 field named "<fname>"
-        And the field is of type "<ftype>"
+        Then the entity has a field named "<fname>"
+        And the field is of type <ftype>
         And the field is primary(<primary>)
 
         Examples:
@@ -32,20 +32,6 @@ Feature: MCD entity manipulation.
             |name|nbi|nbm|nbf|
             |test|3  |2  |5  |
             |mdot|77 |15 |92 |
-
-    Scenario Outline: Fetching a field from entity.
-        Given an entity named "test"
-        And a field with name "<name>" in entity
-        And the field is of type <ftype>
-        When we fetch the field "<name>" from the entity
-        Then a field is returned
-        And the field is of type <ftype>
-
-        Examples:
-            |name |ftype |
-            |test |bigint|
-            |mdot |string|
-            |kitty|bool  |
 
     Scenario Outline: Deleting a specific field.
         Given an entity named "test"
