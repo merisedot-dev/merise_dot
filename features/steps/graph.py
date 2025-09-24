@@ -34,6 +34,21 @@ def init_links(context, n: int) -> None:
         context.graph.add_link(f"l_{i}", f"e_{a}", f"e_{b}")
 
 
+@given("a link named \"{name}\" in graph")
+def ensure_lk(context, name: str) -> None:
+    for e_name in context.graph._entities.keys():
+        context.graph.add_link(name, e_name, e_name)
+        return # dirty hack
+
+
+@given("the link points to \"{name}\"")
+def ensure_lk_points(context, name: str) -> None:
+    for _, lk in context.graph._links.items():
+        lk.add_card_str(context.graph.get_entity(name), 0, -1)
+        return # smol hack
+
+
+@given("another entity named \"{name}\" in graph")
 @when("we add an entity named \"{name}\"")
 def add_one_entity(context, name: str) -> None:
     context.graph.add_entity(name)
@@ -75,6 +90,16 @@ def dump_graph(context) -> None:
     context.g_dump = str(context.graph)
 
 
+@when("we try to link \"{ea}\" and \"{eb}\"")
+def lk_link(context, ea: str, eb: str) -> None:
+    context.graph.add_link("lk_test", ea, eb)
+
+
+@when("we remove the entity \"{name}\" from graph")
+def rm_ent(context, name: str) -> None:
+    context.graph.del_entity(name)
+
+
 @then("the graph exists")
 def check_graph(context) -> None:
     assert context.graph
@@ -91,9 +116,13 @@ def check_graph_entities(context, n: int) -> None:
     assert len(context.graph._entities) == n
 
 
+@then("the graph has {n:d} link")
 @then("the graph has {n:d} links")
 def check_graph_links(context, n: int) -> None:
     assert len(context.graph._links) == n
+    for l_name in context.graph._links.keys():
+        context.lk = context.graph._links[l_name]
+        return # another hack
 
 
 @then("an exception occured")
@@ -129,3 +158,8 @@ def check_dump_graph_name(context, name: str) -> None:
 @then("a graph can be parsed from the JSON")
 def check_valid_JSON(context) -> None:
     graph_parse(context.g_dump)
+
+
+@then("the link \"{lk_name}\" is not pointing to \"{e_name}\"")
+def check_lk_not_point(context, lk_name: str, e_name: str) -> None:
+    assert not(context.graph.get_link(lk_name).get_card(e_name))

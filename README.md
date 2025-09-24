@@ -32,7 +32,7 @@ pipx install -e .
 
 ## Usage
 
-Each use case will be documented in the [features] folder, please refer to it whenever you are in doubt. The choice has been made to rely on instrumented testing, so the [Gherkin] test books also function as tests and documentation.
+Just run the script and refer to its manual. Once launched, you will be prompted with different actions you can take to edit your MCD graph.
 
 [Nix]: https://nixos.org/
 [features]: ./features/

@@ -50,6 +50,8 @@ class Graph:
         if not (name in self._entities.keys()):
             raise EntityNotFoundException(name)
         self._entities.pop(name)
+        for _, link in self._links.items():
+            link.del_card_str(name)
 
     def add_link(self, l_name: str, ea: str, eb: str) -> None:
         """Add a link between two entities on graph.
@@ -66,6 +68,11 @@ class Graph:
         link.add_card(self.get_entity(ea), 0, -1)
         link.add_card(self.get_entity(eb), 0, -1)
         self._links[name] = link
+
+    def get_link(self, l_name: str) -> MCDLink:
+        if not (l_name in self._links.keys()):
+            return None
+        return self._links[l_name]
 
     def __str__(self) -> str:
         return f"""{{

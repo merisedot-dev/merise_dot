@@ -45,3 +45,16 @@ Feature: MCD entity manipulation.
             |fname|fname2|
             |mdot |kitty |
             |chook|koohc |
+
+    Scenario Outline: Writing an entity to memory.
+        Given an entity named "test"
+        And the entity has <nb> fields
+        When we dump the entity as a string
+        Then the string is valid JSON
+        And an entity can be parsed from it
+
+        Examples:
+            |nb|
+            |0 |
+            |1 |
+            |45|

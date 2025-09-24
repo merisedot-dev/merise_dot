@@ -96,3 +96,11 @@ Feature: MCD root graph handling.
             |ng  |nbe|nbl|
             |test|3  |4  |
             |mdot|12 |0  |
+
+    Scenario: On cascade deletion
+        Given a graph named "mdot"
+        And an entity named "test" in graph
+        And a link named "lk" in graph
+        And the link points to "test"
+        When we remove the entity "test" from graph
+        Then the link "lk" is not pointing to "test"

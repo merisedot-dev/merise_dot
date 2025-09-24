@@ -1,3 +1,4 @@
+import json
 from .errors import *
 
 
@@ -85,7 +86,7 @@ class Entity:
                 f"""
                 {{
                     "name": "{f}",
-                    "primary": {p},
+                    "primary": {json.dumps(p)},
                     "type": "{t}"
                 }}""" for (f, (t, p)) in self._fields.items()
             ])

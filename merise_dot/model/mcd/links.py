@@ -23,6 +23,16 @@ class MCDLink:
             return # silent fail
         self._entities[entity] = (min, max)
 
+    def del_card_str(self, card: str) -> None:
+        if not (card in self._entities.keys()):
+            return # silent fail
+        self._entities.pop(card)
+
+    def get_card(self, card: str) -> (int, int):
+        if not (card in self._entities.keys()):
+            return None
+        return self._entities[card.lower()]
+
     def __str__(self) -> str:
         return f"""{{
             "name": "{self._name}",

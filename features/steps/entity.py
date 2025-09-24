@@ -1,5 +1,5 @@
 from behave import *
-from merise_dot.model.mcd import Entity
+from merise_dot.model.mcd import Entity, entity_parse
 
 
 @given("an entity named \"{name}\"")
@@ -57,6 +57,11 @@ def add_more_fields(context, nb: int) -> None:
         context.entity.add_field(f"field_{i+size}", "bigint", False)
 
 
+@when("we dump the entity as a string")
+def dump_entity(context) -> None:
+    context.g_dump = str(context.entity)
+
+
 @then("the entity's name is \"{name}\"")
 def entity_check_name(context, name: str) -> None:
     assert context.entity._name == name
@@ -92,3 +97,8 @@ def entity_check_field_primary(context, prim: str) -> None:
     primary = prim == "yes"
     (f, p) = context.field
     assert primary == p
+
+
+@then("an entity can be parsed from it")
+def check_parse(context) -> None:
+    entity_parse(context.json_g_dump)
