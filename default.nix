@@ -23,5 +23,5 @@ in python3Packages.buildPythonApplication {
   format = "pyproject";
 
   nativeBuildInputs = with python3Packages; [ hatch hatch-build-scripts ];
-  buildInputs = with python3Packages; [ click rich ];
+  buildInputs = with python3Packages; [ click rich graphviz ];
 }

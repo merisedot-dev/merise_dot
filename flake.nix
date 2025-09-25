@@ -19,7 +19,7 @@
     devShells.default = pkgs.mkShell {
       name = "merise_dot";
       inputsFrom = [ self.packages.${system}.default ];
-      buildInputs = with pkgs.python3Packages; with pkgs; [
+      packages = with pkgs.python3Packages; with pkgs; [
         venvShellHook
         bumpver
         yapf
@@ -28,6 +28,7 @@
         # python deps
         rich
         click
+        graphviz
       ];
       postVenvCreation = ''
         pip install -e .

@@ -1,3 +1,4 @@
+from graphviz import Graph as GGraph
 from merise_dot.model import Graph
 from merise_dot.model.mcd import Entity, MCDLink
 
@@ -8,27 +9,30 @@ EDGE_SETTINGS: str = "edge [\nlen=2\nlabeldistance=2\n];"
 class MCDBuilder:
 
     def __init__(self) -> None:
-        # utility attributes
-        # output attributes
-        self._info: str = ""
+        self._name: str = ""
+        self._info: GGraph = GGraph()
 
-    def mk_entity(self, ent: Entity) -> str:
-
-        def frm(f_n: str, f_t: str, f_p: bool) -> str:
-            return ""
-
-        return \
-        f'''"{ent._name}" [
-            shape=record
-            label="\\N|{"\l ".join(frm(n, t, p)
-                            for n, (t, p) in ent._fields.items)}\l"
-        ]'''
+    def _mk_link(self, lk: MCDLink) -> None:
+        self._info.node(lk._name,shape="Mrecord")
+        for e_n, (min, max) in lk._entities.items():
+            self._info.edge(
+                lk._name, e_n, label=f"{min},{"n" if max==-1 else max}")
 
     def mk_graph(self, graph: Graph) -> None:
-        self._info= \
-        f"""graph {graph._name} {{
-            {EDGE_SETTINGS}
 
-            {"\n\n".join(self.mk_entity(ent)
-                    for _, ent in graph._entities.items())}
-        }}"""
+        def frm_ent(ent) -> str:
+            return f"""\\N|{"\\l ".join(
+                f"{"PK " if f_p else "\t"}{f_n}: {f_t}"
+                for f_n, (f_t, f_p) in ent._fields)}\\l"""
+
+        self._info = GGraph(graph._name)
+        # entities
+        for _, ent in graph._entities.items():
+            self._info.node(ent._name, label=frm_ent(ent), shape="record")
+        # links
+        for _, lk in graph._links.items():
+            self._mk_link(lk)
+
+    def build(self, path: str) -> None:
+        self._info.format="png"
+        self._info.render(path)

@@ -14,6 +14,7 @@ let
       # build deps
       click
       rich
+      graphviz
     ];
 
     # actual build
