@@ -1,0 +1,35 @@
+from click import Context
+from rich import print as rprint
+
+from merise_dot.model import Graph, graph_parse
+from .edit import edit_graph
+
+
+# actual command code
+def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
+    rprint(f"Opening MCD in {path}")
+    graph: Graph = None
+
+    # Graph parsing
+    if not n:
+        contents: str = ""
+        with open(path, 'r') as file:
+            contents = file.reads()
+        graph = graph_parse(contents)
+    else: # the "new" flag was passed
+        rprint("[bold]Enter MCD name :")
+        name = str(input())
+        if not name:
+            exit(-1) # Why the fluff did you not input something
+        graph = Graph(name)
+
+    # smol hack for mainloop
+    if n:
+        rprint("Do you wish editing the MCD graph ? [y/n]")
+        ch = str(input())
+        if not ch or ch.lower() == 'n':
+            exit(0)
+        e = True # flag manipulation for later
+
+    if e: # edition mainloop
+        edit_graph(graph)

@@ -1,15 +1,11 @@
 import click
 from click import Context
-from rich.console import Console
 
 # inner command imports
 from .commands import *
 
 # metadata
 __version__ = "0.1.0"
-
-# console reference
-_CONSOLE = Console()
 
 
 @click.group()
@@ -35,7 +31,7 @@ def mcd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
 
     Please see the options to check how one can interact with such graph.
     """
-    mcd_cmd(_CONSOLE, ctx, path, g, e, n)
+    mcd_cmd(ctx, path, g, e, n)
 
 
 @main.command("mld")
