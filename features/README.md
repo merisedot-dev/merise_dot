@@ -2,7 +2,7 @@
 
 This is where tests are being made for this software. We are not using generic unit tests on that one though, the choice has been made to switch to instrumented testing.
 
-Please refer to [behave] documentation for more information about Python instrumented testing.
+Please refer to [behave] documentation for more information about Python instrumented testing. Please also keep in mind that rendering will need to be tested separately.
 
 ## Running tests
 

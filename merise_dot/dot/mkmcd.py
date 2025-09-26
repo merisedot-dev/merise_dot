@@ -13,7 +13,7 @@ class MCDBuilder:
         self._info: GGraph = GGraph()
 
     def _mk_link(self, lk: MCDLink) -> None:
-        self._info.node(lk._name,shape="Mrecord")
+        self._info.node(lk._name, shape="Mrecord")
         for e_n, (min, max) in lk._entities.items():
             self._info.edge(
                 lk._name, e_n, label=f"{min},{"n" if max==-1 else max}")
@@ -23,7 +23,7 @@ class MCDBuilder:
         def frm_ent(ent) -> str:
             return f"""\\N|{"\\l ".join(
                 f"{"PK " if f_p else "\t"}{f_n}: {f_t}"
-                for f_n, (f_t, f_p) in ent._fields)}\\l"""
+                for f_n, (f_t, f_p) in ent._fields.items())}\\l"""
 
         self._info = GGraph(graph._name)
         # entities
@@ -35,4 +35,5 @@ class MCDBuilder:
 
     def build(self, path: str) -> None:
         self._info.format="png"
-        self._info.render(path)
+        ug = self._info.unflatten(stagger=3)
+        ug.render(path)

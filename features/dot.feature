@@ -20,3 +20,14 @@ Feature: DOT graph compilation
             |1 |0 |
             |45|0 |
             |45|12|
+
+    Scenario: Full-on graph compilation
+        Given a graph named "mdot"
+        And the graph has 5 entities
+        And each entity has a primary key
+        And the entities 1 and 5 are linked
+        And the entities 2 and 3 are linked
+        And the entities 3 and 3 are linked
+        And the entities 3 and 5 are linked
+        When we compile the graph as DOT
+        Then the DOT structure can be turned into an image
