@@ -10,8 +10,15 @@ def ensure_pk(context) -> None:
 
 
 @given("the entities {a:d} and {b:d} are linked")
-def ensure_link(context, a, b) -> None:
+def ensure_link(context, a: int, b: int) -> None:
     context.graph.add_link(f"l_{a-1}.{b-1}", f"e_{a-1}", f"e_{b-1}")
+
+
+@given("entity {e:d} has another field named \"{name}\"")
+def ensure_another_field(context, e: int, name: str) -> None:
+    context.graph                               \
+        .get_entity(f"e_{e-1}")                 \
+        .add_field("f_test", "string", False)
 
 
 @when("we compile the graph as DOT")

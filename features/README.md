@@ -6,7 +6,17 @@ Please refer to [behave] documentation for more information about Python instrum
 
 ## Running tests
 
-First ensure [behave] is installed, as it will be required. Then, run the following command :
+This procedure assumes your shell is positioned at the root of this repository. First ensure [behave] is installed, as it will be required. Then, run the following command :
+
+```shell
+rm -rf ./test_files/ && mkdir ./test_files/ && behave
+```
+
+Or, if you have [just] installed :
+
+```shell
+just test
+```
 
 ## Testing conventions
 
@@ -29,3 +39,4 @@ Phrase       |Definition
 "empty graph"|An empty graph and `None` are not the same thing
 
 [behave]: https://behave.readthedocs.io/
+[just]: https://github.com/casey/just

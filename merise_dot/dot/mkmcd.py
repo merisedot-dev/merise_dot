@@ -20,10 +20,12 @@ class MCDBuilder:
 
     def mk_graph(self, graph: Graph) -> None:
 
-        def frm_ent(ent) -> str:
-            return f"""\\N|{"\\l ".join(
-                f"{"PK " if f_p else "\t"}{f_n}: {f_t}"
-                for f_n, (f_t, f_p) in ent._fields.items())}\\l"""
+        def frm_ent(ent: Entity) -> str:
+            return f"""{{
+                \\N|{"\\l ".join(
+                    f"{"PK " if f_p else "\t"}{f_n}: {f_t}"
+                    for f_n,(f_t,f_p) in ent._fields.items())}\\l
+                }}"""
 
         self._info = GGraph(graph._name)
         # entities
@@ -34,6 +36,5 @@ class MCDBuilder:
             self._mk_link(lk)
 
     def build(self, path: str) -> None:
-        self._info.format="png"
-        ug = self._info.unflatten(stagger=3)
-        ug.render(path)
+        self._info.format = "png"
+        self._info.render(path)

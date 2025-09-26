@@ -29,5 +29,6 @@ Feature: DOT graph compilation
         And the entities 2 and 3 are linked
         And the entities 3 and 3 are linked
         And the entities 3 and 5 are linked
+        And entity 2 has another field named "test"
         When we compile the graph as DOT
         Then the DOT structure can be turned into an image

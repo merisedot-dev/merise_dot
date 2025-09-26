@@ -23,6 +23,7 @@
         venvShellHook
         bumpver
         yapf
+        just # some commands utility
         # test deps
         behave
         # python deps
