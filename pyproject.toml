@@ -4,7 +4,10 @@ description = "Python port of the merisedot script"
 readme = "README.md"
 dynamic = [ "version" ]
 requires-python = ">=3.8"
-dependencies = [ "rich", "click", "graphviz" ]
+dependencies = [
+    "rich", "click", "questionary", # CLI tools
+    "graphviz" # graph rendering
+]
 
 [[project.authors]]
 name = "kheldae"

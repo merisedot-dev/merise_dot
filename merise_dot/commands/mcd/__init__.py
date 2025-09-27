@@ -24,8 +24,8 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
         graph = Graph(name)
 
     # smol hack for mainloop
-    if n:
-        rprint("Do you wish editing the MCD graph ? [y/n]")
+    if n: # new flag was passed
+        rprint("Do you wish editing the MCD graph ? (y/n)")
         ch = str(input())
         if not ch or ch.lower() == 'n':
             exit(0)

@@ -29,6 +29,7 @@
         # python deps
         rich
         click
+        questionary
         graphviz
       ];
       postVenvCreation = ''
