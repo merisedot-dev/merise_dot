@@ -1,5 +1,9 @@
 # testing grounds
 test_files
 
+# build junkyard
 .nixie
 result
+
+# python junkyard
+.venv
