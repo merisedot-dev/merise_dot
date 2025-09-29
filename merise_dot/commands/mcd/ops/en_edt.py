@@ -5,7 +5,8 @@ from .fields import *
 # functer trick
 _FIELD_OPS_CHOICES = {
     "add a field": add_field_op,
-    "edit a field": edit_field_op
+    "edit a field": edit_field_op,
+    "delete a field": field_del_op
 }
 
 

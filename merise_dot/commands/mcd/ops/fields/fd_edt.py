@@ -1,7 +1,6 @@
 import questionary
 from rich import print as rprint
 from merise_dot.model.mcd import Entity
-from merise_dot.dot import mkrt
 
 # modifcation names
 _MODS: list[str] = ["change name", "change type", "make primary"]
@@ -13,7 +12,6 @@ _PRIMARY_RULES: dict[str | int] = {
 
 
 def edit_field_op(entity: Entity) -> None:
-    rprint(mkrt(entity))
     f_name: str = questionary.select(
         "Choose a field to edit", choices=entity._fields.keys()).ask()
     # choose modification
