@@ -1,4 +1,4 @@
-import questionary
+import os, questionary
 from rich import print as rprint
 
 # inner imports
@@ -7,17 +7,21 @@ from .ops import *
 
 # constants, please do not touch
 _OPS_CHOICES = {
-    "add an entity": add_entity_ops,
+    "add an entity": add_entity_op,
     "edit an entity": edit_entity_op,
     "delete an entity": del_entity_op,
     "link two entities": link_entity_op
 }
 
 
-def edit_graph(graph: Graph) -> None:
+def edit_graph(graph: Graph, path: str) -> None:
     while True: # it's a mainloop
         qst: str = questionary.select(
             "Choose an operation to perform",
             choices=_OPS_CHOICES.keys()).ask()
         _OPS_CHOICES[qst](graph)
-        # TODO save graph to file before losing it
+        # save graph to file before losing it
+        sv_proc = os.fork()
+        if sv_proc == 0: # we're in subprocess
+            with open(path, 'w') as file:
+                file.write(str(graph))

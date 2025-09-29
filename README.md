@@ -32,7 +32,7 @@ pipx install -e .
 
 ## Usage
 
-Just run the script and refer to its manual. Once launched, you will be prompted with different actions you can take to edit your MCD graph.
+Just run the script and refer to its manual. Once launched, you will be prompted with different actions you can take to edit your MCD graph. If you need more detailed use cases, the [features] directory has you covered.
 
 [Nix]: https://nixos.org/
 [features]: ./features/

@@ -32,4 +32,4 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
         e = True # flag manipulation for later
 
     if e: # edition mainloop
-        edit_graph(graph)
+        edit_graph(graph, path)

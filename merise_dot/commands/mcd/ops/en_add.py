@@ -3,7 +3,7 @@ from rich import print as rprint
 from merise_dot.model import Graph
 
 
-def add_entity_ops(graph: Graph) -> None:
+def add_entity_op(graph: Graph) -> None:
     try:
         ent = graph.add_entity(
             questionary.question("Enter new Entity name :").ask())
