@@ -6,8 +6,9 @@ from .links import *
 
 # extra constants
 _LK_OPS = {
-    "link an extra entity": link_extra,
-    "remove cardinalities from link": link_remove_op
+    "link an extra entity": lk_extra,
+    "remove cardinalities from link": link_remove_op,
+    "edit a link's cardinality": link_edit_card
 }
 
 
