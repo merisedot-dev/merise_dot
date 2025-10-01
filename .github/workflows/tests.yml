@@ -1,0 +1,17 @@
+name: "Run our checks"
+
+on:
+  push:
+    branches:
+      - '!master' # this is test CI, no need for that now
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setting up Nix
+        uses: cachix/install-nix-action@v20
+      - name: Run tests
+        run: nix flake check
