@@ -23,5 +23,10 @@ in python3Packages.buildPythonApplication {
   format = "pyproject";
 
   nativeBuildInputs = with python3Packages; [ hatch hatch-build-scripts ];
-  buildInputs = with python3Packages; [ click rich questionary graphviz ];
+  propagatedBuildInputs = with python3Packages; [
+    click
+    rich
+    questionary
+    graphviz
+  ];
 }
