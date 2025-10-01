@@ -39,7 +39,6 @@ in python3Packages.buildPythonApplication {
   nativeBuildInputs = with python3Packages; [ hatch hatch-build-scripts ];
   propagatedBuildInputs = with python3Packages; [
     click
-    rich
     questionary
     graphviz
     pzpPkg

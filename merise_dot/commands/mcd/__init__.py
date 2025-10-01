@@ -1,14 +1,14 @@
 import pzp
 from click import Context
-from rich import print as rprint
+
 from merise_dot.dot import MCDBuilder
 from merise_dot.model import Graph, graph_parse
-from .edit import edit_graph
+from .edit import MCDEditCmd
 
 
 # actual command code
 def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
-    rprint(f"Opening MCD in {path}")
+    print(f"Opening MCD in {path}")
     graph: Graph = None
 
     # Graph parsing
@@ -18,7 +18,7 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
             contents = file.reads()
         graph = graph_parse(contents)
     else: # the "new" flag was passed
-        rprint("[Bold] Enter MCD name : ", end="")
+        print("Enter MCD name : ", end="")
         name: str = input()
         if not name:
             exit(-1) # Why the fluff did you not input something
@@ -35,9 +35,9 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
             file.write(str(graph))
 
     if e: # edition mainloop
-        edit_graph(graph, path)
+        MCDEditCmd().edit(graph, path)
 
     if g: # rendering flag switched on
         grbld = MCDBuilder(graph)
         grbld.build(f"{name}.png")
-        rprint(f"MCD {name} rendered")
+        print(f"MCD {name} rendered")

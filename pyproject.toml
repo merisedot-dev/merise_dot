@@ -5,7 +5,7 @@ readme = "README.md"
 dynamic = [ "version" ]
 requires-python = ">=3.8"
 dependencies = [
-    "rich", "click", "questionary", # CLI tools
+    "click", "questionary", # CLI tools
     "graphviz", # graph rendering
     "pzp" # selector
 ]
