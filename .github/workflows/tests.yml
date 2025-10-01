@@ -1,0 +1,10 @@
+name: "Run our own checks before merging"
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run custom tests
+        run: ./nix flake check
