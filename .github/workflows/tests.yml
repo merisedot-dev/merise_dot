@@ -1,6 +1,9 @@
-name: "Run our own checks before merging"
+name: "Run our checks"
 
-on: [push]
+on:
+  push:
+    branches:
+      - '!master' # this is test CI, no need for that now
 
 jobs:
   build:
@@ -10,5 +13,5 @@ jobs:
         uses: actions/checkout@v3
       - name: Setting up Nix
         uses: cachix/install-nix-action@v20
-      - name: Run custom tests
+      - name: Run tests
         run: nix flake check
