@@ -18,7 +18,7 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
             contents = file.reads()
         graph = graph_parse(contents)
     else: # the "new" flag was passed
-        name: str = questionary.question("Enter MCD name :").ask()
+        name: str = questionary.text("Enter MCD name :").ask()
         if not name:
             exit(-1) # Why the fluff did you not input something
         graph = Graph(name)

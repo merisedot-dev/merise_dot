@@ -19,7 +19,7 @@ def edit_field_op(entity: Entity) -> None:
         "What to do with this field ?", choices=_MODS).ask()
     # apply modification
     if mod == _MODS[0]:
-        n_name: str = questionary.question("Field's new name :").ask()
+        n_name: str = questionary.text("Field's new name :").ask()
         if n_name in entity._fields.keys():
             rprint(f"Another field is already named {n_name}")
             return
@@ -28,7 +28,7 @@ def edit_field_op(entity: Entity) -> None:
         entity.add_field(n_name, f_t, f_p)
         entity.delete_field(f_name)
     elif mod == _MODS[1]:
-        n_type: str = questionary.question("Field's new type :").ask()
+        n_type: str = questionary.text("Field's new type :").ask()
         # just raw input for now
         entity.edit_field(f_name, n_type, 0)
     else: # _MODS[2]

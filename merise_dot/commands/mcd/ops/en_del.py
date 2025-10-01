@@ -3,7 +3,7 @@ from merise_dot.model import Graph
 
 
 def del_entity_op(graph: Graph) -> None:
-    name: str = questionary.question(
+    name: str = questionary.text(
         "Choose the entity to delete from MCD :",
         choices=graph._entities.keys()).ask()
     # small guard clause

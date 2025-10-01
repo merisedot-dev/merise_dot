@@ -12,10 +12,10 @@ def link_edit_card(graph: Graph, link: MCDLink) -> None:
         choices=link._entities.keys()).ask()
     c_min, c_max = link.get_card(card_name)
     # define minimum cardinality
-    card_min: int = questionary.question(
+    card_min: int = questionary.text(
         "Minimum cardinality (-1 is n)", default=0).ask()
     # define maximum cardinality
-    card_max: int = questionary.question(
+    card_max: int = questionary.text(
         "Maximum cardinality (-1 is n)", default=0).ask()
     # changing cardinality
     link.del_card_str(card_name)

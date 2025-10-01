@@ -12,9 +12,7 @@ def link_extra_op(graph: Graph, lk: MCDLink) -> None:
                     questionary.select(
                         "Which extra entity to link",
                         choices=graph._entities.keys()).ask())),
-            int(questionary.question("Minimum cardinality :").ask()),
-            int(
-                questionary.question(
-                    "Maximum cardinality (-1 is 'n') :").ask()))
+            int(questionary.text("Minimum cardinality :").ask()),
+            int(questionary.text("Maximum cardinality (-1 is 'n') :").ask()))
     except Exception as e:
         rprint(f"A problem occured during linking : {e}")

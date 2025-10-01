@@ -6,8 +6,8 @@ from merise_dot.dot import mkrt
 
 def add_field_op(entity: Entity) -> None:
     rprint(mkrt(entity))
-    f_name: str = questionary.question("Field name :").ask()
-    f_type: str = questionary.question("Field type :").ask()
+    f_name: str = questionary.text("Field name :").ask()
+    f_type: str = questionary.text("Field type :").ask()
     f_pr: bool = questionary.confirm("Make field primary ?").ask()
     # slotting field in entity
     try:
