@@ -8,7 +8,7 @@ class GraphSaveOp(OpsScheme):
         super().__init__()
 
     def handle(self, graph: Graph, **kwargs) -> None:
-        path: str = kwargs[0] # FIXME
+        path: str = kwargs['path']
         # quick memory dump
         with open(path, 'w') as file:
             print("Saving MCD graph...")
