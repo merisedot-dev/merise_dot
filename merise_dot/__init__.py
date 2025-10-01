@@ -5,7 +5,7 @@ from click import Context
 from .commands import *
 
 # metadata
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 
 
 @click.group()
