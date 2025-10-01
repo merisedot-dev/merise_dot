@@ -1,4 +1,4 @@
-import questionary
+import pzp, questionary
 from rich import print as rprint
 from merise_dot.model import Graph
 from merise_dot.model.mcd import MCDLink

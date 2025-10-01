@@ -1,4 +1,4 @@
-import os, questionary
+import os, pzp
 from rich import print as rprint
 
 # inner imports
@@ -13,7 +13,7 @@ def merise_exit(graph: Graph) -> None:
 
 
 # constants, please do not touch
-_OPS_CHOICES = {
+_OPS = {
     "add an entity": add_entity_op,
     "edit an entity": edit_entity_op,
     "delete an entity": del_entity_op,
@@ -24,10 +24,9 @@ _OPS_CHOICES = {
 
 def edit_graph(graph: Graph, path: str) -> None:
     while True: # it's a mainloop
-        qst: str = questionary.select(
-            "Choose an operation to perform",
-            choices=_OPS_CHOICES.keys()).ask()
-        _OPS_CHOICES[qst](graph)
+        rprint("[bold] Choose an operation to perform : ", end="")
+        qst: str = pzp.pzp(_OPS.keys(), fullscreen=False, height=7)
+        _OPS[qst](graph)
         # save graph to file before losing it
         sv_proc = os.fork()
         if sv_proc == 0: # we're in subprocess

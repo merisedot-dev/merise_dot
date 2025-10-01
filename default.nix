@@ -3,6 +3,7 @@
 let
   merisedot_version = "1.0.0";
 
+  # build scripts
   hatch-build-scripts = python3Packages.buildPythonPackage rec {
     pname = "hatch-build-scripts";
     version = "0.0.4";
@@ -13,6 +14,19 @@ let
       inherit version;
       pname = "hatch_build_scripts";
       sha256 = "sha256-x4UgmGkH5HU48suyT95B7fwsxV9FK1Ni+64Vzk5jRPc=";
+    };
+  };
+
+  # selector package
+  pzpPkg = python3Packages.buildPythonPackage rec {
+    pname = "pzp";
+    version = "0.0.28";
+    format = "pyproject";
+    build-system = with python3Packages; [ setuptools ];
+
+    src = fetchPypi {
+      inherit version pname;
+      sha256 = "sha256-xO3x2v5yT5cxz4pa7Ug/f2sQFkJcMIVSWLfj/Lm70E4=";
     };
   };
 in python3Packages.buildPythonApplication {
@@ -28,5 +42,6 @@ in python3Packages.buildPythonApplication {
     rich
     questionary
     graphviz
+    pzpPkg
   ];
 }

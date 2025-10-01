@@ -1,4 +1,4 @@
-import questionary
+import pzp
 from click import Context
 from rich import print as rprint
 from merise_dot.dot import MCDBuilder
@@ -18,16 +18,16 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
             contents = file.reads()
         graph = graph_parse(contents)
     else: # the "new" flag was passed
-        name: str = questionary.text("Enter MCD name :").ask()
+        rprint("[Bold] Enter MCD name : ", end="")
+        name: str = input()
         if not name:
             exit(-1) # Why the fluff did you not input something
         graph = Graph(name)
 
     # smol hack for mainloop
     if n: # new flag was passed
-        rprint("Do you wish editing the MCD graph ? (y/n)")
-        choice: bool = questionary.confirm(
-            "Do you wish editing the MCD graph ?").ask()
+        choice: bool = pzp.confirm(
+            "Do you wish editing the MCD graph ?", default=False)
         if not choice:
             exit(0)
         e = True # flag manipulation for later
