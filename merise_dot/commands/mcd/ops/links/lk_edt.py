@@ -1,12 +1,12 @@
 import questionary
 from rich import print as rprint
-from merise_dot.dot import make_link_richtable
+from merise_dot.dot import mk_link_richtable
 from merise_dot.model import Graph
 from merise_dot.model.mcd import MCDLink
 
 
 def link_edit_card(graph: Graph, link: MCDLink) -> None:
-    rprint(make_link_richtable(link))
+    rprint(mk_link_richtable(link))
     card_name: str = questionary.select(
         "Which cardinality do you want to edit ?",
         choices=link._entities.keys()).ask()

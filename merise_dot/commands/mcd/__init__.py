@@ -1,6 +1,6 @@
 from click import Context
 from rich import print as rprint
-
+from merise_dot.dot import MCDBuilder
 from merise_dot.model import Graph, graph_parse
 from .edit import edit_graph
 
@@ -30,6 +30,13 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
         if not ch or ch.lower() == 'n':
             exit(0)
         e = True # flag manipulation for later
+        with open(path, 'w') as file:
+            file.write(str(graph))
 
     if e: # edition mainloop
         edit_graph(graph, path)
+
+    if g: # rendering flag switched on
+        grbld = MCDBuilder(graph)
+        grbld.build(f"{name}.png")
+        rprint(f"MCD {name} rendered")
