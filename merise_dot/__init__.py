@@ -23,7 +23,9 @@ def main(_: Context) -> None:
 @click.option(
     "-e", "--edit", help="Open editing options for the MCD", is_flag=True)
 @click.option("-n", "--new", help="create a new MCD", is_flag=True)
-def mcd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
+def mcd(
+        context: Context, path: str, graph: bool, edit: bool,
+        new: bool) -> None:
     """Interact with and MCD graph.
 
     This graph needs to be stored at PATH, so the software can read it.
@@ -31,7 +33,7 @@ def mcd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
 
     Please see the options to check how one can interact with such graph.
     """
-    mcd_cmd(ctx, path, g, e, n)
+    mcd_cmd(context, path, graph, edit, new)
 
 
 @main.command("mld")
