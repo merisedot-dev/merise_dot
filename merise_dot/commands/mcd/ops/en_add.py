@@ -1,12 +1,20 @@
-import questionary
-from rich import print as rprint
+import pzp
+
 from merise_dot.model import Graph
+from .scheme import *
 
 
-def add_entity_op(graph: Graph) -> None:
-    try:
-        ent = graph.add_entity(
-            questionary.question("Enter new Entity name :").ask())
-        rprint(f"Entity {ent._name} has been added to MCD")
-    except:
-        rprint("Couldn't add entity. The name was taken")
+class EntityAddOp(OpsScheme):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    def handle(self, graph: Graph, **kwargs) -> None:
+        name: str = pzp.prompt("Name of the entity to add")
+        if not name:
+            return # why, just, why ?
+        try:
+            graph.add_entity(name)
+            print(f"Added entity {name}")
+        except Exception as e:
+            print(f"Couldn't add entity : {e}")

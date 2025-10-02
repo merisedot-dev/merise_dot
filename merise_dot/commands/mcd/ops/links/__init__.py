@@ -1,3 +1,3 @@
-from .lk_edt import *
-from .lk_extra import *
-from .lk_rm import *
+from .lk_addcard import *
+from .lk_delcard import *
+from .lk_edtcard import *

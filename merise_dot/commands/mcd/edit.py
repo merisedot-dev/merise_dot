@@ -1,35 +1,28 @@
-import os, questionary
-from rich import print as rprint
+import pzp
 
-# inner imports
 from merise_dot.model import Graph
 from .ops import *
 
 
-# smol ops hack to ensure we can exit the normal way
-def merise_exit(graph: Graph) -> None:
-    rprint("Exiting...")
-    exit(0)
+class MCDEditCmd:
 
+    def __init__(self) -> None:
+        self._edit_ops: dict[str | OpsScheme] = {
+            "Add an entity": EntityAddOp(),
+            "Edit an entity": EntityEditOp(),
+            "Delete an entity": EntityDelOp(),
+            "Link two entities": LinkAddOp(),
+            "Edit a link": LinkEditOp(),
+            "Delete a link": LinkDeleteOp(),
+            "Save graph": GraphSaveOp(),
+            "Exit": ExitOp()
+        }
 
-# constants, please do not touch
-_OPS_CHOICES = {
-    "add an entity": add_entity_op,
-    "edit an entity": edit_entity_op,
-    "delete an entity": del_entity_op,
-    "link two entities": link_entity_op,
-    "exit": merise_exit
-}
-
-
-def edit_graph(graph: Graph, path: str) -> None:
-    while True: # it's a mainloop
-        qst: str = questionary.select(
-            "Choose an operation to perform",
-            choices=_OPS_CHOICES.keys()).ask()
-        _OPS_CHOICES[qst](graph)
-        # save graph to file before losing it
-        sv_proc = os.fork()
-        if sv_proc == 0: # we're in subprocess
-            with open(path, 'w') as file:
-                file.write(str(graph))
+    def edit(self, graph: Graph, path: str) -> None:
+        while True:
+            print("Select what to do with the graph :")
+            choice: str = pzp.pzp(
+                self._edit_ops.keys(),
+                fullscreen=False,
+                height=len(self._edit_ops) + 2)
+            self._edit_ops[choice].handle(graph, path=path)

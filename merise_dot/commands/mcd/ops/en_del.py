@@ -1,19 +1,23 @@
-import questionary
-from merise_dot.model import Graph
+import pzp
+
+from merise_dot.model import Graph, EntityNotFoundException
+from .scheme import *
 
 
-def del_entity_op(graph: Graph) -> None:
-    name: str = questionary.question(
-        "Choose the entity to delete from MCD :",
-        choices=graph._entities.keys()).ask()
-    # small guard clause
-    if not graph.get_entity(name):
-        rprint(f"Entity {name} isn't in MCD")
-        return
-    # actual deletion
-    check: bool = questionary.confirm(
-        f"Deleting {name} may cause cascading deletions. Continue ? [y/n]"
-    ).ask()
-    if check: # cascade deletion was confirmed
-        graph.del_entity(name)
-        rprint(f"Entity {name} has been deleted")
+class EntityDelOp(OpsScheme):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    def handle(self, graph: Graph, **kwargs) -> None:
+        if len(graph._entities) == 0:
+            return
+        name: str = pzp.pzp(
+            graph._entities.keys(),
+            fullscreen=False,
+            height=len(graph._entities) + 2)
+        try:
+            graph.del_entity(name)
+            print(f"Deleted entity {name}")
+        except EntityNotFoundException as e:
+            print(f"Couldn't delete entity : {e}")

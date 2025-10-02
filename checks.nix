@@ -13,7 +13,6 @@ let
       merise_dot
       # build deps
       click
-      rich
       questionary
       graphviz
     ];

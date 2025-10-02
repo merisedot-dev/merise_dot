@@ -5,8 +5,9 @@ readme = "README.md"
 dynamic = [ "version" ]
 requires-python = ">=3.8"
 dependencies = [
-    "rich", "click", "questionary", # CLI tools
-    "graphviz" # graph rendering
+    "click", "questionary", # CLI tools
+    "graphviz", # graph rendering
+    "pzp" # selector
 ]
 
 [[project.authors]]
@@ -30,7 +31,7 @@ packages = [ "merise_dot" ]
 "merise_dot" = "merise_dot:main"
 
 [tool.bumpver]
-current_version = "1.0.0"
+current_version = "1.1.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = true

@@ -27,7 +27,6 @@
         # test deps
         behave
         # python deps
-        rich
         click
         questionary
         graphviz
