@@ -10,7 +10,9 @@ class EntityEditOp(OpsScheme):
 
     def __init__(self) -> None:
         self._field_ops: dict[str | OpsScheme] = {
-            "Adding a field": FieldAddOp()
+            "Adding a field": FieldAddOp(),
+            "Edit a field": FieldEditOp(),
+            "Delete a field": FieldDelOp()
         }
 
     def handle(self, graph: Graph, **kwargs) -> None:
@@ -26,6 +28,6 @@ class EntityEditOp(OpsScheme):
                 self._field_ops.keys(),
                 fullscreen=False,
                 height=len(self._field_ops) + 2)
-            self._field_ops[choice].handle(graph, entity=entity)
+            self._field_ops[choice].handle(graph, entity=ent)
         except EntityNotFoundException as e:
             print(f"Couldn't edit entity {name} : {e}")

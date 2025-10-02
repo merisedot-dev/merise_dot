@@ -1,7 +1,7 @@
 import pzp
 
 from merise_dot.model import Graph
-from merise_dot.model.mcd import Entity
+from merise_dot.model.mcd import Entity, FieldOverwiteException
 from merise_dot.commands.mcd.ops.scheme import *
 
 
@@ -21,7 +21,9 @@ class FieldAddOp(OpsScheme):
         if not f_type:
             return
         # checking is field should be primary
+        prim: bool = pzp.confirm("Is field primary ?")
         try:
-            pass
-        except:
-            pass
+            entity.add_field(name, f_type, prim)
+            print(f"Added field {name} to entity {entity._name}")
+        except FieldOverwiteException as e:
+            print(f"Couldn't add field to entity {entity._name} : {e}")
