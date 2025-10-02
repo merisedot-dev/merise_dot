@@ -15,7 +15,7 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
     if not n:
         contents: str = ""
         with open(path, 'r') as file:
-            contents = file.reads()
+            contents = file.read()
         graph = graph_parse(contents)
     else: # the "new" flag was passed
         print("Enter MCD name : ", end="")
@@ -38,6 +38,7 @@ def mcd_cmd(ctx: Context, path: str, g: bool, e: bool, n: bool) -> None:
         MCDEditCmd().edit(graph, path)
 
     if g: # rendering flag switched on
-        grbld = MCDBuilder(graph)
-        grbld.build(f"{name}.png")
-        print(f"MCD {name} rendered")
+        grbld = MCDBuilder()
+        grbld.mk_graph(graph)
+        grbld.build(f"{graph._name}.png")
+        print(f"MCD {graph._name} rendered")
