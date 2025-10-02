@@ -12,6 +12,8 @@ class MCDEditCmd:
             "Edit an entity": EntityEditOp(),
             "Delete an entity": EntityDelOp(),
             "Link two entities": LinkAddOp(),
+            "Edit a link": LinkEditOp(),
+            "Delete a link": LinkDeleteOp(),
             "Save graph": GraphSaveOp(),
             "Exit": ExitOp()
         }

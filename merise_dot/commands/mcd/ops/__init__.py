@@ -4,4 +4,6 @@ from .en_del import *
 from .en_edt import *
 from .gr_save import *
 from .lk_add import *
+from .lk_del import *
+from .lk_edt import *
 from .exit import *
