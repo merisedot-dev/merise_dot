@@ -11,7 +11,9 @@ class LinkEditOp(OpsScheme):
     def __init__(self) -> None:
         super().__init__()
         self._edit_op: dict[str | OpsScheme] = {
-            "Add cardinality": LinkAddCardOp()
+            "Add cardinality": LinkAddCardOp(),
+            "Edit cardinality": LinkEditCardOp(),
+            "Delete cardinality": LinkDelCardOp()
         }
 
     def handle(self, graph: Graph, **kwargs) -> None:
