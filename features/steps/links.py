@@ -43,14 +43,14 @@ def check_lk_points(context, dst: str) -> None:
 
 @then("the link has {nb:d} field(s)")
 def check_nb_link_fields(context, nb: int) -> None:
-    assert len(lk._fields) == nb
+    assert len(context.lk._fields) == nb
 
 
 @then("the link field is named \"{name}\"")
 def check_link_field_name(context, name: str) -> None:
-    assert lk.get_field(name)
+    assert context.lk.get_field(name)
 
 
 @then("the link field is of type {f_t}")
 def check_link_field_type(context, f_t: str) -> None:
-    assert lk.get_field(context.lk_field_name) == f_t
+    assert context.lk.get_field(context.lk_field_name) == f_t
