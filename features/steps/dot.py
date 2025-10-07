@@ -25,9 +25,9 @@ def ensure_another_field(context, e: int, name: str) -> None:
 
 @given("the link between {l1:d} and {l2:d} has {nb:d} fields")
 def ensure_link_fields(context, l1: int, l2: int, nb: int) -> None:
-    lk: MCDLink = context.graph.get_link(f"l_{l1}_{l2}")
+    glk: MCDLink = context.graph.get_link(f"l_{l1-1}.{l2-1}")
     for i in range(nb):
-        lk.add_field(f"lkf_{i}", "bigint")
+        glk.add_field(f"lkf_{i}", "bigint")
 
 
 @when("we compile the graph as DOT")
