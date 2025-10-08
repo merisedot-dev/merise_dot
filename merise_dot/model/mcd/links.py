@@ -49,7 +49,10 @@ class MCDLink:
             "name": "{self._name}",
             "entities": {{
                 {",".join(f'"{k}": [{v1},{v2}]'
-                    for k, (v1,v2) in self._entities.items())}
+                    for k, (v1, v2) in self._entities.items())}
+                }},
+            "fields": {{
+                {",".join(f'"{k}": "{v}"' for k, v in self._fields.items())}
                 }}
             }}"""
 
@@ -58,4 +61,6 @@ def link_parse(info: dict) -> MCDLink:
     lk = MCDLink(info["name"])
     for ent, cards in info["entities"].items():
         lk.add_card_str(ent, cards[0], cards[1])
+    for k, v in info["fields"].items():
+        lk.add_field(k, v)
     return lk
