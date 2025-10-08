@@ -1,7 +1,7 @@
 { pkgs, stdenv, python3, python3Packages, fetchPypi, hatch, ... }:
 
 let
-  merisedot_version = "1.1.0";
+  merisedot_version = "1.2.0";
 
   # build scripts
   hatch-build-scripts = python3Packages.buildPythonPackage rec {
