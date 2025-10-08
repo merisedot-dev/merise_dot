@@ -32,3 +32,17 @@ Feature: Linking entities together.
             |0 |0 |0 |
             |3 |2 |1 |
             |3 |3 |0 |
+
+    Scenario Outline: Adding specific fields to link entity
+        Given a link named "mdot"
+        And the link has <nbc> cardinalities
+        When we add a field named "<name>" with type <t> to the link
+        Then the link has 1 field(s)
+        And the link field is named "<name>"
+        And the link field is of type <t>
+
+        Examples:
+            |nbc|name  |t          |
+            |3  |miaouh|int        |
+            |0  |test  |varchar(40)|
+            |10 |merise|date       |

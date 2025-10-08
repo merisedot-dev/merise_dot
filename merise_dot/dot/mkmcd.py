@@ -2,9 +2,6 @@ from graphviz import Graph as GGraph
 from merise_dot.model import Graph
 from merise_dot.model.mcd import Entity, MCDLink
 
-# Constants (please do not touch)
-EDGE_SETTINGS: str = "edge [\nlen=2\nlabeldistance=2\n];"
-
 
 class MCDBuilder:
 
@@ -13,7 +10,11 @@ class MCDBuilder:
         self._info: GGraph = GGraph()
 
     def _mk_link(self, lk: MCDLink) -> None:
-        self._info.node(lk._name, shape="Mrecord")
+        self._info.node(
+                lk._name, shape="Mrecord", label=f"""{{
+                    \\N|{"\\l ".join(f"{f_n}: {f_t}"
+                                for f_n, f_t in lk._fields.items())}\\l
+                }}""")
         for e_n, (min, max) in lk._entities.items():
             self._info.edge(
                 lk._name, e_n, label=f"{min},{"n" if max==-1 else max}")

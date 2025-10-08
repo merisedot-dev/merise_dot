@@ -13,7 +13,10 @@ class LinkEditOp(OpsScheme):
         self._edit_op: dict[str | OpsScheme] = {
             "Add cardinality": LinkAddCardOp(),
             "Edit cardinality": LinkEditCardOp(),
-            "Delete cardinality": LinkDelCardOp()
+            "Delete cardinality": LinkDelCardOp(),
+            "Add field to link": LinkAddFieldOp(),
+            "Delete field from link": LinkFieldDeleteOp(),
+            "Edit a field on a link": LinkFieldEdtOp()
         }
 
     def handle(self, graph: Graph, **kwargs) -> None:

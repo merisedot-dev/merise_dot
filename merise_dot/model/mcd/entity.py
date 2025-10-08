@@ -53,7 +53,7 @@ class Entity:
         # swapping info
         f_t = f_t if not f_type else f_type
         f_p = f_p if primary == 0 else True if primary == 1 else False
-        self._fields.update(name, (f_t, f_p))
+        self._fields[name] = (f_t, f_p)
 
     def get_field(self, f_name: str) -> (str, bool):
         """Fetch field from entity.

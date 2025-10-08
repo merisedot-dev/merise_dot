@@ -1,5 +1,7 @@
 import tempfile
 from behave import *
+
+from merise_dot.model.mcd import MCDLink, Entity
 from merise_dot.dot import MCDBuilder
 
 
@@ -19,6 +21,20 @@ def ensure_another_field(context, e: int, name: str) -> None:
     context.graph                               \
         .get_entity(f"e_{e-1}")                 \
         .add_field("f_test", "string", False)
+
+
+@given("the link between {l1:d} and {l2:d} has {nb:d} fields")
+def ensure_link_fields(context, l1: int, l2: int, nb: int) -> None:
+    glk: MCDLink = context.graph.get_link(f"l_{l1-1}.{l2-1}")
+    for i in range(nb):
+        glk.add_field(f"lkf_{i}", "bigint")
+
+
+@given("the link between {l1:d} and {l2:d} is also linked to {l3:d}")
+def ensure_ternary_link(context, l1: int, l2: int, l3: int) -> None:
+    glk: MCDLink = context.graph.get_link(f"l_{l1-1}.{l2-1}")
+    ent: Entity = context.graph.get_entity(f"e_{l3-1}")
+    glk.add_card(ent, 0, 1)
 
 
 @when("we compile the graph as DOT")

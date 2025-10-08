@@ -27,7 +27,7 @@ class LinkAddOp(OpsScheme):
         en2: Entity = self.pick_ent(
             graph, "Choose the other entity on the link")
         try:
-            graph.add_link(name, en1, en2)
+            graph.add_link(name, en1._name, en2._name)
             print(f"Added link {name} for {en1._name} and {en2._name}")
         except LinkDuplicataException as lke:
             print(f"Couldn't add link {name} : {lke}")

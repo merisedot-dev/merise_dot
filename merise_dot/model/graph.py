@@ -71,7 +71,7 @@ class Graph:
 
     def get_link(self, l_name: str) -> MCDLink:
         if not (l_name in self._links.keys()):
-            return None
+            raise Exception(f"not found {l_name}")
         return self._links[l_name]
 
     def __str__(self) -> str:

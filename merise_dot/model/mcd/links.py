@@ -8,6 +8,7 @@ class MCDLink:
         self._name = name
         # moving parts
         self._entities: dict[str | (int, int)] = {}
+        self._fields: dict[str | str] = {}
 
     def add_card(self, entity: Entity, min: int, max: int) -> None:
         self.add_card_str(entity._name, min, max)
@@ -33,12 +34,30 @@ class MCDLink:
             return None
         return self._entities[card.lower()]
 
+    def add_field(self, f_name: str, f_type: str) -> None:
+        if f_name.lower() in self._fields.keys():
+            raise Exception()
+        self._fields[f_name.lower()] = f_type.lower()
+
+    def get_field(self, f_name: str) -> str:
+        if not f_name.lower() in self._fields.keys():
+            raise Exception()
+        return self._fields[f_name.lower()]
+
+    def del_field(self, f_name: str) -> None:
+        if not f_name.lower() in self._fields.keys():
+            raise Exception()
+        self._fields.pop(f_name.lower())
+
     def __str__(self) -> str:
         return f"""{{
             "name": "{self._name}",
             "entities": {{
                 {",".join(f'"{k}": [{v1},{v2}]'
-                    for (k, (v1,v2)) in self._entities.items())}
+                    for k, (v1, v2) in self._entities.items())}
+                }},
+            "fields": {{
+                {",".join(f'"{k}": "{v}"' for k, v in self._fields.items())}
                 }}
             }}"""
 
@@ -47,4 +66,6 @@ def link_parse(info: dict) -> MCDLink:
     lk = MCDLink(info["name"])
     for ent, cards in info["entities"].items():
         lk.add_card_str(ent, cards[0], cards[1])
+    for k, v in info["fields"].items():
+        lk.add_field(k, v)
     return lk
