@@ -44,6 +44,11 @@ class MCDLink:
             raise Exception()
         return self._fields[f_name.lower()]
 
+    def del_field(self, f_name: str) -> None:
+        if not f_name.lower() in self._fields.keys():
+            raise Exception()
+        self._fields.pop(f_name.lower())
+
     def __str__(self) -> str:
         return f"""{{
             "name": "{self._name}",
