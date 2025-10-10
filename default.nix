@@ -1,4 +1,12 @@
-{ pkgs, stdenv, python3, python3Packages, fetchPypi, hatch, ... }:
+{
+  pkgs,
+  stdenv,
+  python3,
+  python3Packages,
+  fetchPypi,
+  hatch,
+  ...
+}:
 
 let
   merisedot_version = "1.2.0";
@@ -29,14 +37,18 @@ let
       sha256 = "sha256-xO3x2v5yT5cxz4pa7Ug/f2sQFkJcMIVSWLfj/Lm70E4=";
     };
   };
-in python3Packages.buildPythonApplication {
+in
+python3Packages.buildPythonApplication {
   pname = "merise_dot";
   version = merisedot_version;
 
   src = ./.;
   format = "pyproject";
 
-  nativeBuildInputs = with python3Packages; [ hatch hatch-build-scripts ];
+  nativeBuildInputs = with python3Packages; [
+    hatch
+    hatch-build-scripts
+  ];
   propagatedBuildInputs = with python3Packages; [
     click
     questionary
