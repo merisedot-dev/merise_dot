@@ -19,7 +19,7 @@ Feature: MLD conversion from MCD graph.
     Scenario Outline: 1,n associations
         Given a graph named "mdot"
         And the graph has an entity named "test1"
-        And the graph has a second entity named "test2"
+        And the graph has an entity named "test2"
         And the entities "test1" and "test2" are linked
         And the cardinality on "test1" is <card1>
         And the cardinality on "test2" is <card2>
@@ -36,7 +36,7 @@ Feature: MLD conversion from MCD graph.
     Scenario: n,n association
         Given a graph named "mdot"
         And the graph has an entity named "test1"
-        And the graph has a second entity named "test2"
+        And the graph has an entity named "test2"
         And the entities "test1" and "test2" are linked
         And the cardinality on "test1" is n
         And the cardinality on "test2" is n
@@ -51,8 +51,8 @@ Feature: MLD conversion from MCD graph.
     Scenario Outline: 0,1 associations
         Given a graph named "mdot"
         And the graph has an entity named "test1"
-        And the graph has a second entty named "test2"
-        And the entities "test1" and "test2" are linkedd
+        And the graph has an entity named "test2"
+        And the entities "test1" and "test2" are linked
         And the cardinality on "test1" is <c1>
         And the cardinality on "test2" is <c2>
         When we turn the graph into an MLD
@@ -65,3 +65,21 @@ Feature: MLD conversion from MCD graph.
             |c1|c2|
             |1 |0 |
             |0 |1 |
+
+
+    Scenario Outline: Field preservation
+        Given a graph named "mdot"
+        And the graph has an entity named "test"
+        And the entity "test" has <nbf> fields
+        And the entity "test" <status> a primary key
+        When we turn the graph into an MLD
+        Then the MLD has an entity named "test"
+        And the MLD entity "test" has <nbfm> fields
+        And the MLD entity "test" <status> a primary key
+
+        Examples:
+            |nbf|status|nbfm|
+            |0  |hasn't|0   |
+            |1  |has   |2   |
+            |12 |has   |13  |
+            |15 |hasn't|15  |
