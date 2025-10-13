@@ -24,3 +24,6 @@ class MLDEntity:
         :param f_type:
         :param status:
         """
+        if name.lower() in self._fields.keys():
+            raise Exception('field already exists')
+        self._fields[name.lower()] = (f_type, status)

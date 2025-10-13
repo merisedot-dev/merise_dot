@@ -30,8 +30,8 @@ Feature: MLD conversion from MCD graph.
 
         Examples:
             |card1|card2|point1|point2|
-            |1    |n    |test1 |test2 |
-            |n    |1    |test2 |test1 |
+            |(0,1)|(0,n)|test1 |test2 |
+            |(0,n)|(0,1)|test2 |test1 |
 
     Scenario: n,n association
         Given a graph named "mdot"
