@@ -24,6 +24,7 @@ def mk_lktype(lk: MCDLink) -> LinkType:
     for n, (_, m) in lk._cardinalities.items():
         if not prev:
             prev = m
+            continue
         # return definition
         if prev == 1 and m == -1:
             return LinkType.ONE2MANY
@@ -32,4 +33,24 @@ def mk_lktype(lk: MCDLink) -> LinkType:
         elif prev == 1 and m == 1:
             return LinkType.ONE2ONE
         # weirder situations won't be handled as it doesn't mean anything
-    return None # aberrant case
+    raise Exception("couldn't parse")
+
+
+def find_direction(lk: MCDLink, t: LinkType) -> (str, str):
+    if t != LinkType.ONE2MANY:
+        raise Exception('nonsensical use')
+    # parsing cards
+    prev: int = None
+    p_n: str = None
+    for n, (m, _) in lk._cardinalities.items():
+        if not prev:
+            prev = m
+            p_n = n
+            continue
+        # return zero endpoint
+        if prev == 1 and m == -1:
+            return (p_n, n)
+        elif prev == -1 and m == 1:
+            return (n, p_n)
+        # weirder situations won't be handled
+    raise Exception("couldn't parse")

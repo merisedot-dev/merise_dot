@@ -32,7 +32,7 @@ def ensure_lk_card(context, name: str, card: str) -> None:
     # edit cardinalities
     lk: MCDLink = context.graph.get_link(context.lk_name)
     lk.del_card_str(name)
-    lk.add_card(name, min, max)
+    lk.add_card_str(name, min, max)
 
 
 @when("we turn the graph into an MLD")

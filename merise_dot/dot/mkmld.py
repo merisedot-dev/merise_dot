@@ -5,6 +5,12 @@ from merise_dot.model.mcd import Entity
 from merise_dot.model.mld import MLDGraph
 from merise_dot.model.mld.entity import *
 
+# extra key constants
+_REGULAR_CODE: int = 0
+_PK_CODE: int = 1
+_FK_CODE: int = 2
+
+
 
 class MLDBuilder:
 
@@ -47,11 +53,28 @@ class MLDBuilder:
                     ent: MLDEntity = self._graph.get_ent(lkn)
                     for n, _ in lk._cardinalities.items():
                         lkd: MLDEntity = self._graph.get_ent(n)
-                        t,_=lkd.get_pk()
-                        ent.add_field(f"{n}", t, _FK_CODE)
-                # TODO other cases
+                        ent.add_field(f"fk_{n}", lkd.get_pk()[0], _FK_CODE)
+
+                elif t == LinkType.ONE2ONE:
+                    c0: str = lk._cardinalities.keys()[0]
+                    c1: str = lk._cardinalities.keys()[1]
+                    # find entities
+                    ent0: MLDEntity = self._graph.get_ent(c0)
+                    ent1: MLDEntity = self._graph.get_ent(c1)
+                    # add foreign keys
+                    ent0.add_field(f"fk_{c0}", ent0.get_pk()[0], _FK_CODE)
+                    ent1.add_field(f"fk_{c1}", ent1.get_pk()[0], _FK_CODE)
+
+                elif t == LinkType.ONE2MANY:
+                    dir, other = find_direction(lk, t)
+                    # getting entities
+                    ent: MLDEntity = self._graph.get_ent(dir)
+                    o_ent: MLDEntity = self._graph.get_ent(other)
+                    # adding foreign key field
+                    ent.add_field(f"fk_{other}", o_ent.get_pk()[0], _FK_CODE)
         except Exception as e:
             self._graph = None
+            raise e
 
     def get(self) -> MLDGraph:
         """Fetched the transformed graph.
