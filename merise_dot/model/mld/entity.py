@@ -27,3 +27,9 @@ class MLDEntity:
         if name.lower() in self._fields.keys():
             raise Exception('field already exists')
         self._fields[name.lower()] = (f_type, status)
+
+    def get_pk(self) -> (str, int):
+        for _, (t, st) in self._fields.items():
+            if st == _PK_CODE:
+                return (t, st)
+        raise Exception('no PK')

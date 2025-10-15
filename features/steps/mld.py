@@ -2,7 +2,7 @@ from behave import *
 
 from merise_dot.dot.mkmld import MLDBuilder
 from merise_dot.model.mcd import Entity, MCDLink
-from merise_dot.model.mld import MLDEntity, _FK_CODE
+from merise_dot.model.mld import *
 
 
 @given("the entity \"{name}\" has {nb:d} fields")
