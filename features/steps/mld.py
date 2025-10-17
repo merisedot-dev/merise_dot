@@ -14,8 +14,8 @@ def ensure_mcd_ent_fields(context, name: str, nb: int) -> None:
 
 @given("the entity \"{name}\" {status} a primary key")
 def ensure_mcd_pk(context, name: str, status: str) -> None:
-    st: bool = status.lower() == 'has'
-    context.graph.get_entity(name).add_field(f"pk_{name}", "int", True)
+    if status.lower() == 'has':
+        context.graph.get_entity(name).add_field(f"pk_{name}", "int", True)
 
 
 @given("the entities \"{n_a}\" and \"{n_b}\" are linked")
@@ -24,15 +24,13 @@ def ensure_link_ents(context, n_a: str, n_b: str) -> None:
     context.graph.add_link(context.lk_name, n_a, n_b)
 
 
-@given("the cardinality on \"{name}\" is {card}")
-def ensure_lk_card(context, name: str, card: str) -> None:
-    card = card[1:-1]
-    min, max = int(card.split(',')[0]), int(
-        card.split(',')[1]) if card.split(',')[1] != 'n' else 'n'
+@given("the cardinality on \"{name}\" is ({min:d},{max})")
+def ensure_lk_card(context, name: str, min: int, max: str) -> None:
+    max_card: int = -1 if max == 'n' else int(max)
     # edit cardinalities
     lk: MCDLink = context.graph.get_link(context.lk_name)
     lk.del_card_str(name)
-    lk.add_card_str(name, min, max)
+    lk.add_card_str(name, min, max_card)
 
 
 @when("we turn the graph into an MLD")
@@ -54,7 +52,14 @@ def check_mld_nb_ents(context, nb: int) -> None:
 
 @then("the MLD has {nb:d} links")
 def check_mld_links(context, nb: int) -> None:
-    assert False # TODO
+    seen: int = 0
+    for _, ent in context.mld._entities.items():
+        for _, (_, st) in ent._fields.items():
+            if st == 3: # Found a foreign key
+                seen += 1
+                if seen > nb:
+                    assert False # no need to continue
+    assert seen == nb
 
 
 @then("the MLD entity \"{name}\" has {nb:d} fields")
@@ -66,17 +71,17 @@ def check_mld_nb_fields(context, name: str, nb: int) -> None:
 def check_mld_pk(context, name: str, status: str) -> None:
     st: bool = status.lower() == 'has'
     ent: MLDEntity = context.mld.get_ent(name)
-    for _, (_, prim) in ent._fields.items():
-        if st and prim:
-            return # found primary key
-    if st: # we should have found a primary key
-        assert False
+    try:
+        ent.get_pk() # PK check
+    except Exception as e:
+        if st: # if there shouldn't be one, everything is fine
+            assert False # something should have happened
 
 
 @then("the entity \"{ent1}\" has a foreign key to \"{ent2}\"")
 def check_mld_fk(context, ent1: str, ent2: str) -> None:
     ent: MLDEntity = context.mld.get_ent(ent1)
     for f_name, (_, st) in ent._fields.items():
-        if f_name == f"" and st == _FK_CODE:
+        if f_name == f"fk_{ent2}" and st == 2: # 2 if FK code
             return # found correct fk
     assert False # should have found a key

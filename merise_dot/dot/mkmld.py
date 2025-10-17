@@ -11,7 +11,6 @@ _PK_CODE: int = 1
 _FK_CODE: int = 2
 
 
-
 class MLDBuilder:
 
     def __init__(self) -> None:
@@ -47,23 +46,23 @@ class MLDBuilder:
             for _, lk in graph._links.items():
                 t: LinkType = mk_lktype(lk)
                 if t == LinkType.MANY2MANY:
-                    lkn: str = f"lk_{"_".join(n for n in lk._cardinalities.keys())}"
+                    lkn: str = f"lk_{"_".join(n for n in lk._entities.keys())}"
                     self._graph.add_ent(lkn)
                     # add foreign keys
                     ent: MLDEntity = self._graph.get_ent(lkn)
-                    for n, _ in lk._cardinalities.items():
+                    for n, (_, _) in lk._entities.items():
                         lkd: MLDEntity = self._graph.get_ent(n)
                         ent.add_field(f"fk_{n}", lkd.get_pk()[0], _FK_CODE)
 
                 elif t == LinkType.ONE2ONE:
-                    c0: str = lk._cardinalities.keys()[0]
-                    c1: str = lk._cardinalities.keys()[1]
+                    c0: str = list(lk._entities.keys())[0]
+                    c1: str = list(lk._entities.keys())[1]
                     # find entities
                     ent0: MLDEntity = self._graph.get_ent(c0)
                     ent1: MLDEntity = self._graph.get_ent(c1)
                     # add foreign keys
-                    ent0.add_field(f"fk_{c0}", ent0.get_pk()[0], _FK_CODE)
-                    ent1.add_field(f"fk_{c1}", ent1.get_pk()[0], _FK_CODE)
+                    ent0.add_field(f"fk_{c1}", ent1.get_pk()[0], _FK_CODE)
+                    ent1.add_field(f"fk_{c0}", ent0.get_pk()[0], _FK_CODE)
 
                 elif t == LinkType.ONE2MANY:
                     dir, other = find_direction(lk, t)

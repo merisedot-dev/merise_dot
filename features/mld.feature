@@ -20,26 +20,28 @@ Feature: MLD conversion from MCD graph.
         Given a graph named "mdot"
         And the graph has an entity named "test1"
         And the graph has an entity named "test2"
+        And the entity "test1" has a primary key
+        And the entity "test2" has a primary key
         And the entities "test1" and "test2" are linked
-        And the cardinality on "test1" is <card1>
-        And the cardinality on "test2" is <card2>
+        And the cardinality on "test1" is (<min11>,<min21>)
+        And the cardinality on "test2" is (<min12>,<min22>)
         When we turn the graph into an MLD
         Then the MLD has an entity named "test1"
         And the MLD has an entity named "test2"
         And the entity "<point1>" has a foreign key to "<point2>"
 
         Examples:
-            |card1|card2|point1|point2|
-            |(0,1)|(0,n)|test1 |test2 |
-            |(0,n)|(0,1)|test2 |test1 |
+            |min11|min21|min12|min22|point1|point2|
+            |0    |1    |0    |n    |test1 |test2 |
+            |0    |n    |0    |1    |test2 |test1 |
 
     Scenario: n,n association
         Given a graph named "mdot"
         And the graph has an entity named "test1"
         And the graph has an entity named "test2"
         And the entities "test1" and "test2" are linked
-        And the cardinality on "test1" is n
-        And the cardinality on "test2" is n
+        And the cardinality on "test1" is (0,n)
+        And the cardinality on "test2" is (0,n)
         When we turn the graph into an MLD
         Then the MLD has an entity named "test1"
         And the MLD has an entity named "test2"
@@ -52,9 +54,11 @@ Feature: MLD conversion from MCD graph.
         Given a graph named "mdot"
         And the graph has an entity named "test1"
         And the graph has an entity named "test2"
+        And the entity "test1" has a primary key
+        And the entity "test2" has a primary key
         And the entities "test1" and "test2" are linked
-        And the cardinality on "test1" is <c1>
-        And the cardinality on "test2" is <c2>
+        And the cardinality on "test1" is (<c1>,1)
+        And the cardinality on "test2" is (<c2>,1)
         When we turn the graph into an MLD
         Then the MLD has an entity named "test1"
         And the MLD has an entity named "test2"

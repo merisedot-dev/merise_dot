@@ -17,11 +17,11 @@ class LinkType:
 
 def mk_lktype(lk: MCDLink) -> LinkType:
     # TODO define indicators
-    if len(lk._cardinalities) != 2:
+    if len(lk._entities) != 2:
         return None # not handled for now
     # parsing cards
     prev: int = None
-    for n, (_, m) in lk._cardinalities.items():
+    for n, (_, m) in lk._entities.items():
         if not prev:
             prev = m
             continue
@@ -42,7 +42,7 @@ def find_direction(lk: MCDLink, t: LinkType) -> (str, str):
     # parsing cards
     prev: int = None
     p_n: str = None
-    for n, (m, _) in lk._cardinalities.items():
+    for n, (_, m) in lk._entities.items():
         if not prev:
             prev = m
             p_n = n
