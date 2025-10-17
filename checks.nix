@@ -1,5 +1,10 @@
-{ pkgs, stdenv, python3Packages,
-merise_dot ? pkgs.callPackage ./default.nix { },... }:
+{
+  pkgs,
+  stdenv,
+  python3Packages,
+  merise_dot ? pkgs.callPackage ./default.nix { },
+  ...
+}:
 
 let
   reports = stdenv.mkDerivation {
@@ -7,15 +12,18 @@ let
 
     # build info
     src = ./.;
-    nativeBuildInputs = with pkgs; with python3Packages; [
-      behave
-      coverage
-      merise_dot
-      # build deps
-      click
-      questionary
-      graphviz
-    ];
+    nativeBuildInputs =
+      with pkgs;
+      with python3Packages;
+      [
+        behave
+        coverage
+        merise_dot
+        # build deps
+        click
+        questionary
+        graphviz
+      ];
 
     # actual build
     buildPhase = ''
@@ -30,7 +38,8 @@ let
       cp -r reports $out/
     '';
   };
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   name = "merise_dot-behave-res";
   src = reports.out;
   dontInstall = true; # these are test reports, not a binary

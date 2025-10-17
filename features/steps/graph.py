@@ -21,6 +21,7 @@ def init_entities(context, n: int) -> None:
         context.graph.add_entity(f"e_{i}")
 
 
+@given("the graph has an entity named \"{name}\"")
 @given("an entity named \"{name}\" in graph")
 def g_init_spec_entity(context, name: str) -> None:
     context.graph.add_entity(name)
@@ -162,4 +163,4 @@ def check_valid_JSON(context) -> None:
 
 @then("the link \"{lk_name}\" is not pointing to \"{e_name}\"")
 def check_lk_not_point(context, lk_name: str, e_name: str) -> None:
-    assert not(context.graph.get_link(lk_name).get_card(e_name))
+    assert not (context.graph.get_link(lk_name).get_card(e_name))

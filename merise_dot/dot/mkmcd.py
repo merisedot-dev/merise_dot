@@ -4,6 +4,13 @@ from merise_dot.model.mcd import Entity, MCDLink
 
 
 class MCDBuilder:
+    """DotGraph converter for an MCD graph.
+    This won't build the graph right away, rather take in a graph and turn it into
+    a graphviz friendly form.
+
+    This builder also covers the rendering of the graph, the creation of the file,
+    however, is none of its concern.
+    """
 
     def __init__(self) -> None:
         self._name: str = ""
