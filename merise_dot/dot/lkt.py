@@ -26,7 +26,7 @@ def mk_lktype(lk: MCDLink) -> LinkType:
             prev = m
             continue
         # return definition
-        if prev == 1 and m == -1:
+        if (prev == 1 and m == -1) or (prev == -1 and m == 1):
             return LinkType.ONE2MANY
         elif prev == -1 and m == -1:
             return LinkType.MANY2MANY

@@ -39,6 +39,8 @@ Feature: MLD conversion from MCD graph.
         Given a graph named "mdot"
         And the graph has an entity named "test1"
         And the graph has an entity named "test2"
+        And the entity "test1" has a primary key
+        And the entity "test2" has a primary key
         And the entities "test1" and "test2" are linked
         And the cardinality on "test1" is (0,n)
         And the cardinality on "test2" is (0,n)
