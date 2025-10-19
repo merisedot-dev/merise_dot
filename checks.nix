@@ -20,8 +20,6 @@ let
         coverage
         merise_dot
         # build deps
-        click
-        questionary
         graphviz
       ];
 

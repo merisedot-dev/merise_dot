@@ -1,0 +1,8 @@
+site_name: merise_dot
+theme:
+  name: mkdocs
+  color_mode: dark
+
+nav:
+  - Home: index.md
+  - Getting Started: quickstart.md

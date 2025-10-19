@@ -27,8 +27,7 @@ pipx install -e .
 
 ## Usage
 
-This software is made to be imported in any tool needing to manipulate *MCD* graphs, or anything merise-related. Please refer to the [features] descriptions to know how to use this library.
+This software is made to be imported in any tool needing to manipulate *MCD* graphs, or anything merise-related. Please refer to the Gherkin features descriptions in the `features` directory to know how to use this library.
 
 [Nix]: https://nixos.org/
-[features]: ./features/
 [Gherkin]: https://cucumber.io/
