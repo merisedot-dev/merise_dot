@@ -27,9 +27,6 @@ path = "merise_dot/__init__.py"
 [tool.hatch.build.targets.wheel]
 packages = [ "merise_dot" ]
 
-[project.scripts]
-"merise_dot" = "merise_dot:main"
-
 [tool.bumpver]
 current_version = "1.3.0"
 version_pattern = "MAJOR.MINOR.PATCH"

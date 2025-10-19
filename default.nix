@@ -38,7 +38,7 @@ let
     };
   };
 in
-python3Packages.buildPythonApplication {
+python3Packages.buildPythonPackage {
   pname = "merise_dot";
   version = merisedot_version;
 
