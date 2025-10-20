@@ -10,7 +10,7 @@ To add the library to your project, please add the following to your `pyproject.
 dependencies = [ "merise_dot" ]
 ```
 
-If you're using devshells, please refer to one of the following sections for the following devshell tool you're using.
+If you're using devshells, please refer to one of the following sections for the following devshell tool you're using. As of now, only the following have been tested, so they are the only one being talked about here.
 
 ### Nix
 
@@ -54,5 +54,5 @@ Once you build your graph how you wanted, you may want to render the graph to vi
 ```py
 mcdb = MCDBuilder()
 mcdb.mk_graph(graph)
-mcdb.build('/tmp/test.gr') # please see API ref
+mcdb.build('/tmp/test.gr') # please see extra sections
 ```

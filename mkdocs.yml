@@ -6,3 +6,5 @@ theme:
 nav:
   - Home: index.md
   - Getting Started: quickstart.md
+  - Graphs:
+    - MCD: mcd.md
