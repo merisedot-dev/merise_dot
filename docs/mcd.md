@@ -92,4 +92,30 @@ lk = graph.get_link('lk')
 lk.add_field('test', 'int')
 ```
 
+Again, the field's name will be lowercased and will act as an ID for said field. This is made to avoid duplication in the fields and make parsing easier when handling conversions. Unlike what Entities are equipped with, these fields only have the information of their type and their name. In case the field's type should change, please use the following method :
+
+```py
+lk.edit_field('test', 'varchar(30)')
+```
+
 ### Link cardinalities
+
+The entire point of Links is to be... Well... Linked to more classical entities. This means cardinalities on the link node. Cardinality usage should look something like this :
+
+```py
+ent_3 = graph.add_entity('machin')
+lk.add_card(ent_3, 0, -1) # for a n cardinality
+lk.del_card(ent_3)
+lk.add_card(ent_3, 0, 1) # for a 1 cardinality
+```
+
+A link can have one and only one cardinality on a given Entity. This will be used in two ways :
+
+- during conversion, it will be used to determine the name of a foreign key and where it goes
+- during rendering, it will be used to know what to display as a name
+
+## Rendering
+
+For [graphviz] enjoyers, a `MCDBuilder.render(path)` method was added to the library. This will not create the file to dump the graph in, but it will write a complete dotgraph *and* create a `.png` file next to it, containing an image of the rendered graph. Please ignore some... Questionable line placement, thanks [graphviz].
+
+[graphviz]: https://graphviz.org/

@@ -8,3 +8,5 @@ nav:
   - Getting Started: quickstart.md
   - Graphs:
     - MCD: mcd.md
+    - MLD: mld.md
+    - SQL: sql.md
