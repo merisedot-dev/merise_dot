@@ -34,6 +34,11 @@ class MCDLink:
             return None
         return self._entities[card.lower()]
 
+    def edit_card(self, entity: Entity, c_min: int, c_max: int) -> None:
+        if not entity._name in self._entities.keys():
+            raise Exception('cannot edit unknown cardinality')
+        self._entities[entity._name] = (c_min, c_max)
+
     def add_field(self, f_name: str, f_type: str) -> None:
         if f_name.lower() in self._fields.keys():
             raise Exception()
@@ -48,6 +53,11 @@ class MCDLink:
         if not f_name.lower() in self._fields.keys():
             raise Exception()
         self._fields.pop(f_name.lower())
+
+    def edit_field(self, f_name: str, f_type: str) -> None:
+        if not f_name.lower() in self._fields.keys():
+            raise Exception('field not found')
+        self._fields[f_name.lower()] = f_type
 
     def __str__(self) -> str:
         return f"""{{

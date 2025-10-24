@@ -38,9 +38,8 @@
               # test deps
               behave
               # python deps
-              click
-              questionary
               graphviz
+              mkdocs
             ];
           postVenvCreation = ''
             pip install -e .

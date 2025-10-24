@@ -5,6 +5,8 @@ objasm
 # build junkyard
 .nixie
 result
+__pycache__
 
 # python junkyard
 .venv
+site

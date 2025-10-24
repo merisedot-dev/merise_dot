@@ -8,16 +8,11 @@ As of now, no pip release has been done, no more than a nixpkgs one. Since this 
 
 ### Nix
 
-If you're as well a [Nix] enjoyer (or you're lazy like me), please run the following command to use the software and get access to its manual :
-
-```shell
-nix run github.com:Khelda/merise-dot -- --help
-```
-
-Since it may be called upon often, you would be well-advised to alias that in your shell configuration for ease of use. You can also run this if you like using `nix profile` more :
+If you're as well a [Nix] enjoyer (or you're lazy like me), please run one of the following commands to install this in your Nix profile (nix-env also works but isn't recommended as of now) :
 
 ```nix
 nix profile install github.com:Khelda/merise-dot
+nix-env -iA github.com:Khelda/merise-dot
 ```
 
 ### Pipx
@@ -32,8 +27,7 @@ pipx install -e .
 
 ## Usage
 
-Just run the script and refer to its manual. Once launched, you will be prompted with different actions you can take to edit your MCD graph. If you need more detailed use cases, the [features] directory has you covered.
+This software is made to be imported in any tool needing to manipulate *MCD* graphs, or anything merise-related. Please refer to the Gherkin features descriptions in the `features` directory to know how to use this library.
 
 [Nix]: https://nixos.org/
-[features]: ./features/
 [Gherkin]: https://cucumber.io/
