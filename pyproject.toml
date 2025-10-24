@@ -2,6 +2,7 @@
 name = "merise_dot"
 description = "Python port of the merisedot script"
 readme = "README.md"
+license="GPL-3.0-only"
 dynamic = [ "version" ]
 requires-python = ">=3.8"
 dependencies = [

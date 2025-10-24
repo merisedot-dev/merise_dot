@@ -53,6 +53,9 @@ class MLDBuilder:
                     for n, (_, _) in lk._entities.items():
                         lkd: MLDEntity = self._graph.get_ent(n)
                         ent.add_field(f"fk_{n}", lkd.get_pk()[0], _FK_CODE)
+                    # add extra attributes
+                    for n, (t, _) in lk._fields.items():
+                        ent.add_field(n, t)
 
                 elif t == LinkType.ONE2ONE:
                     c0: str = list(lk._entities.keys())[0]
