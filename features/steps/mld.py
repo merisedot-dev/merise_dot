@@ -33,6 +33,7 @@ def ensure_lk_card(context, name: str, min: int, max: str) -> None:
     lk.add_card_str(name, min, max_card)
 
 
+@given("the graph is turned into an MLD")
 @when("we turn the graph into an MLD")
 def mk_mld(context) -> None:
     mk_mld: MLDBuilder = MLDBuilder()
