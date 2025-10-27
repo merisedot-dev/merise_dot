@@ -1,3 +1,4 @@
+import os
 from behave import *
 
 from merise_dot.dot.script import Script
@@ -24,7 +25,7 @@ def convert_sql(context) -> None:
 @then("the script is the same as \"{f_name}.sql\"")
 def check_script(context, f_name: str) -> None:
     contents: str = ""
-    with open(f"assets/{f_name}.sql", 'r') as file: # FIXME
+    with open(f"{os.getcwd()}/features/assets/{f_name}.sql", 'r') as file:
         contents = file.read()
     # TODO fetch output script for check
     output: str = str(context.script)

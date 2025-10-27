@@ -3,3 +3,5 @@
 drop database mdot;
 
 create database mdot;
+
+-- vim: ft=mysql
