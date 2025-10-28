@@ -33,6 +33,13 @@ Feature: SQL conversion of a graph
         Given a graph named "<name>"
         And the graph has 5 entities
         And each entity has a primary key
+        And the entities 2 and 3 are linked
+        And 2 is linked to 3 by the cardinality (0,1)
+        And 3 is linked to 2 by the cardinality (1,1)
+        And the entities 3 and 4 are linked
+        And 3 is linked to 4 by the cardinality (0,n)
+        And 4 is linked to 3 by the cardinality (0,n)
+        And the link between 3 and 4 also links 1 by cardinality (1,1)
         And the graph is turned into an MLD
         When we select <core> as a conversion kernel
         And we turn the MLD into an SQL script
