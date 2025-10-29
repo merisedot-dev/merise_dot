@@ -14,10 +14,14 @@ class MLDEntity:
 
     def __init__(self, name: str) -> None:
         self._name: str = name
-        self._fields: dict[str | (str, int)] = {}
+        self._fields: dict[str | (str, int, bool)] = {}
 
     def add_field(
-            self, name: str, f_type: str, status: int = _REGULAR_CODE) -> None:
+            self,
+            name: str,
+            f_type: str,
+            status: int = _REGULAR_CODE,
+            nullable: bool = False) -> None:
         """Adding a new field to the entity.
 
         :param name:
@@ -26,10 +30,11 @@ class MLDEntity:
         """
         if name.lower() in self._fields.keys():
             raise Exception('field already exists')
-        self._fields[name.lower()] = (f_type, status)
+        self._fields[name.lower()] = (
+            f_type, status, False if status == _PK_CODE else nullable)
 
     def get_pk(self) -> (str, int):
-        for _, (t, st) in self._fields.items():
+        for _, (t, st, nl) in self._fields.items():
             if st == _PK_CODE:
                 return (t, st)
         raise Exception('no PK')

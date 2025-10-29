@@ -1,5 +1,6 @@
 from merise_dot.scripts import SQLConversionKernel
 from merise_dot.model.mld import MLDGraph
+from merise_dot.model.mld.entity import _PK_CODE, _FK_CODE
 
 
 class Script:
@@ -21,6 +22,23 @@ class Script:
 
         :param graph: the MLD graph used for the conversion.
         """
+        try:
+            for name, ent in graph._entities.items():
+                self._core.mk_table(name)
+                for f_name, (f_type, st, nl) in ent._fields.items():
+                    if st != _FK_CODE:
+                        self._core.mk_field(
+                            f_name, f_type, st == _PK_CODE or not nl)
+                    else:
+                        pass # TODO handling foreign keys
+                self._core.close_table()
+            # TODO transform constraints
+            self._script = str(self._core)
+        except Exception as e:
+            self._script = ""
+            raise e
 
     def __str__(self) -> str:
-        return ""
+        if not self._script:
+            raise Exception("Cannot find a converted script")
+        return self._script

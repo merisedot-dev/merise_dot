@@ -21,12 +21,7 @@ class SQLConversionKernel:
         """Close the table we're writing into.
         """
 
-    def mk_field(
-            self,
-            name: str,
-            f_type: str,
-            nullable: bool = True,
-            default: any = None) -> None:
+    def mk_field(self, name: str, f_type: str, nullable: bool = True) -> None:
         """Add a field into the current table we're editing.
 
         :param name: The field's name.

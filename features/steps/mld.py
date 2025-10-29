@@ -55,7 +55,7 @@ def check_mld_nb_ents(context, nb: int) -> None:
 def check_mld_links(context, nb: int) -> None:
     seen: int = 0
     for _, ent in context.mld._entities.items():
-        for _, (_, st) in ent._fields.items():
+        for _, (_, st, nl) in ent._fields.items():
             if st == 3: # Found a foreign key
                 seen += 1
                 if seen > nb:
@@ -82,7 +82,7 @@ def check_mld_pk(context, name: str, status: str) -> None:
 @then("the entity \"{ent1}\" has a foreign key to \"{ent2}\"")
 def check_mld_fk(context, ent1: str, ent2: str) -> None:
     ent: MLDEntity = context.mld.get_ent(ent1)
-    for f_name, (_, st) in ent._fields.items():
+    for f_name, (_, st, nl) in ent._fields.items():
         if f_name == f"fk_{ent2}" and st == 2: # 2 if FK code
             return # found correct fk
     assert False # should have found a key
