@@ -10,6 +10,7 @@ class SQLConversionKernel:
     def __init__(self) -> None:
         if type(self) == SQLConversionKernel:
             exit(-1) # this is abstract
+        self._current_table = None
 
     def mk_table(self, name: str) -> None:
         """Add a new table to write into into the script.
@@ -20,6 +21,7 @@ class SQLConversionKernel:
     def close_table(self) -> None:
         """Close the table we're writing into.
         """
+        self._current_table = None
 
     def mk_field(self, name: str, f_type: str, nullable: bool = True) -> None:
         """Add a field into the current table we're editing.
