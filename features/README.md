@@ -12,7 +12,7 @@ This procedure assumes your shell is positioned at the root of this repository. 
 rm -rf ./test_files/ && mkdir ./test_files/ && behave
 ```
 
-Or, if you have [just] installed :
+Or, if you have [just] installed (it is provided with the devShell) :
 
 ```shell
 just test

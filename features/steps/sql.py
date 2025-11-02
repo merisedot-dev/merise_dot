@@ -39,6 +39,7 @@ def convert_sql(context) -> None:
     context.script.mk_sql(context.mld)
 
 
+@then("the script piece looks like the script in \"{f_name}.sql\"")
 @then("the script is the same as \"{f_name}.sql\"")
 def check_script(context, f_name: str) -> None:
     contents: str = ""

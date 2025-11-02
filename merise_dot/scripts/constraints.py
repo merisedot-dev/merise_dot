@@ -15,7 +15,7 @@ class ConstraintBuilder:
         # constraint definition fields
         self._c_type: CstrType = None
 
-    def set_table(self, name: str) -> ConstraintBuilder:
+    def set_table(self, name: str):
         """Set which table will have the honor of receiving the constraint.
         It won't check if the table is in database.
 
@@ -25,7 +25,7 @@ class ConstraintBuilder:
         self._table_name = name
         return self
 
-    def constraint_type(self, c_type: CstrType) -> ConstraintBuilder:
+    def constraint_type(self, c_type: CstrType):
         """Set what type of constraint we're talking about.
         By "constraint type", we're talking "foreign keys", "unique" or any other
         constraint supported by the implementor SGBD.
