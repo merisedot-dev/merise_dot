@@ -31,7 +31,7 @@ class SQLConversionKernel:
         :param nullable: Wether the field can be null or not.
         """
 
-    def mk_constraint(self, cstr: ConstraintBuilder) -> None:
+    def mk_constraint(self, cstr: Constraint) -> None:
         """Define a constraint for the table we're editing.
 
         :param cstr: The constraint builder to check the definition of said

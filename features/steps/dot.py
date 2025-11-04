@@ -32,7 +32,7 @@ def ensure_link_fields(context, l1: int, l2: int, nb: int) -> None:
 
 @given("the link between {l1:d} and {l2:d} is also linked to {l3:d}")
 def ensure_ternary_link(context, l1: int, l2: int, l3: int) -> None:
-    glk: MCDLink = context.graph.get_link(f"l_{l1-1}.{l2-1}")
+    glk: MCDLink = context.graph.get_link(f"l_{l1-1}_{l2-1}")
     ent: Entity = context.graph.get_entity(f"e_{l3-1}")
     glk.add_card(ent, 0, 1)
 
