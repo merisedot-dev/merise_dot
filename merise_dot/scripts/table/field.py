@@ -1,14 +1,19 @@
-from enum import Enum
-
-
-class TableFieldType(Enum):
-    INTEGER = "int",
-    BIGINT = "bigint",
-    BOOLEAN = "boolean",
-    UUID = "uuid"
+from .tft import *
 
 
 class TableField:
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, tf_type: TableFieldType) -> None:
         self._name: str = name
+        self._tf_type: TableFieldType = tf_type
+        # extra field information
+        self._default_val: any = None
+
+    def pk(self) -> None:
+        pass
+
+    def nullable(self, null: bool = True) -> None:
+        pass
+
+    def ensure_default(self) -> None:
+        pass
