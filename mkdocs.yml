@@ -11,5 +11,7 @@ nav:
     - MLD: mld.md
     - SQL: 
       - conversion: sql.md
+      - semantics:
+        - tables: sql_tables.md
       - constraints:
         - foreign keys: foreignkeys.md

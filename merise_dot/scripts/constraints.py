@@ -25,5 +25,4 @@ class Constraint:
         return f"""
             alter table {self._table_name}
                 constraint {self._name}
-                {str(self._c_type)}
         """
