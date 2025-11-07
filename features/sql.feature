@@ -48,3 +48,26 @@ Feature: SQL conversion of a graph
         Examples:
             |name  |core |
             |mgraph|MySQL|
+
+    Scenario: Empty tables
+        Given a SQL table named "sqtest1"
+        When we turn the table into script
+        Then the table script is the same as "sqtest1.sql"
+
+    Scenario Outline: Adding various fields
+        Given a SQL table named "<name>"
+        And the table has <nint> integer fields
+        And the table has <nbig> bigint fields
+        And the table has <nbool> boolean fields
+        And the table has <nuid> uuid fields
+        When we turn the table into a script
+        Then the table script is the same as "<name>.sql"
+
+        Examples:
+            |name|nint|nbig|nbool|nuid|
+            |sqt |0   |0   |0    |0   |
+            |sqt2|4   |0   |0    |0   |
+            |sqt3|0   |3   |0    |0   |
+            |sqt4|0   |0   |6    |0   |
+            |sqt5|0   |0   |0    |2   |
+            |sqt6|2   |3   |1    |2   |

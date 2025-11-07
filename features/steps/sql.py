@@ -3,7 +3,7 @@ from behave import *
 
 from merise_dot.model.mcd import MCDLink
 from merise_dot.dot.script import Script
-from merise_dot.scripts import SQLConversionKernel
+from merise_dot.scripts import SQLConversionKernel, SQLTable, TableField, TableFieldType
 from merise_dot.scripts.mysql import MySQLCore
 
 # TODO define a conversion core map
@@ -28,6 +28,36 @@ def ternary(context, a: int, b: int, c: int, cn: int, cm: str) -> None:
     lk.add_card_str(f"e_{c - 1}", cn, m_card)
 
 
+@given("a SQL table named \"{name}\"")
+def mk_table(context, name: str) -> None:
+    context.sql_table = SQLTable(name)
+
+
+def insert_fields(context, nb: int, f_type: TableFieldType) -> None:
+    for i in range(nb):
+        context.sql_table.add_field(TableField(f"f_{f_type}_{i}", f_type))
+
+
+@given("the table has {nb:d} integer fields")
+def insert_int_fields(context, nb: int) -> None:
+    insert_fields(context, nb, TableFieldType.INTEGER)
+
+
+@given("the table has {nb:d} bigint fields")
+def insert_bigint_fields(context, nb: int) -> None:
+    insert_fields(context, nb, TableFieldType.BIGINT)
+
+
+@given("the table has {nb:d} boolean fields")
+def insert_bool_fields(context, nb: int) -> None:
+    insert_fields(context, nb, TableFieldType.BOOLEAN)
+
+
+@given("the table has {nb:d} uuid fields")
+def insert_uid_fields(context, nb: int) -> None:
+    insert_fields(context, nb, TableFieldType.UUID)
+
+
 @when("we select {name} as a conversion kernel")
 def core_selection(context, name: str) -> None:
     context.core = _CONVERSION_CORE_TABLE[name]
@@ -39,6 +69,11 @@ def convert_sql(context) -> None:
     context.script.mk_sql(context.mld)
 
 
+@when("we turn the table into script")
+def convert_table(context) -> None:
+    context.script = str(context.sql_table)
+
+
 @then("the script piece looks like the script in \"{f_name}.sql\"")
 @then("the script is the same as \"{f_name}.sql\"")
 def check_script(context, f_name: str) -> None:
@@ -48,3 +83,8 @@ def check_script(context, f_name: str) -> None:
     # TODO fetch output script for check
     output: str = str(context.script)
     assert output == contents
+
+
+@then("the table script is the same as \"{f_name}.sql\"")
+def check_table_script(context, f_name: str) -> None:
+    check_script(context, f"tables/{f_name}")

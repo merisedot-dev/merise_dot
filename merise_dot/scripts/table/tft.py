@@ -16,6 +16,5 @@ def tft_default(tft: TableFieldType) -> any:
         return False # most safe boolean option
     elif tft == tft.UUID:
         return UUID(int=0) # nil UUID, another safe option
-    # TODO fetch other types
     else:
         return None

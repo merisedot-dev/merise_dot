@@ -10,3 +10,6 @@ class SQLTable:
 
     def add_field(self, field: TableField) -> None:
         pass
+
+    def __str__(self) -> str:
+        return f"create table {self._name} ("
