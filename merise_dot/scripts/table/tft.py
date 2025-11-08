@@ -5,8 +5,11 @@ from uuid import UUID
 class TableFieldType(Enum):
     INTEGER = "int",
     BIGINT = "bigint",
-    BOOLEAN = "boolean",
+    BOOLEAN = "bool",
     UUID = "uuid"
+
+    def __str__(self) -> str:
+        return f"{self.value[0]}"
 
 
 def tft_default(tft: TableFieldType) -> any:

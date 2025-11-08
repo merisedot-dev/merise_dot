@@ -21,6 +21,6 @@ class TableField:
         self._default = tft_default(self._tf_type)
 
     def __str__(self) -> None:
-        kind = "primary key" if self._is_pk else ""
+        kind = " primary key" if self._is_pk else ""
         nla = "not null" if not self._nullable else ""
-        return f"{self._name} {self._tf_type} {kind} {nla}"
+        return f"{self._name} {self._tf_type}{kind}{nla}"
