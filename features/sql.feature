@@ -60,7 +60,7 @@ Feature: SQL conversion of a graph
         And the table has <nbig> bigint fields
         And the table has <nbool> boolean fields
         And the table has <nuid> uuid fields
-        When we turn the table into a script
+        When we turn the table into script
         Then the table script is the same as "<name>.sql"
 
         Examples:
