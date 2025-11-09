@@ -79,7 +79,7 @@ def convert_table(context) -> None:
 def check_script(context, f_name: str) -> None:
     contents: str = ""
     with open(f"{os.getcwd()}/features/assets/{f_name}.sql", 'r') as file:
-        contents = file.read()
+        contents = file.read().strip().replace('    ', '\t')
     # TODO fetch output script for check
     output: str = str(context.script)
     assert output == contents

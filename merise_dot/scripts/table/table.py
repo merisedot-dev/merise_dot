@@ -15,4 +15,5 @@ class SQLTable:
 
     def __str__(self) -> str:
         fields = ",\n\t".join(str(field) for _, field in self._fields.items())
-        return f"create table {self._name} (\n\t{fields}\n);"
+        inner = f"\t{fields}\n" if len(self._fields) > 0 else ""
+        return f"create table {self._name} (\n{inner});"
