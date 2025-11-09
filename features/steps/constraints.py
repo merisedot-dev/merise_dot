@@ -3,7 +3,7 @@ from behave import *
 
 @given("we're using the {sgbd} converter")
 def choose_converter(context, sgbd: str) -> None:
-    pass
+    context.sgbd = sgbd
 
 
 @given("a new {cstype} constraint named \"{name}\"")
