@@ -9,7 +9,6 @@ class Constraint:
             exit(-1)
         self._name: str = name
         self._table_name: str = ""
-        # constraint definition fields
 
     def set_table(self, name: str):
         """Set which table will have the honor of receiving the constraint.
