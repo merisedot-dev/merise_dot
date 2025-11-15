@@ -21,7 +21,4 @@ class Constraint:
         return self
 
     def __str__(self) -> str:
-        return f"""
-            alter table {self._table_name}
-                constraint {self._name}
-        """
+        return f"alter table {self._table_name}\n\tconstraint {self._name}"
