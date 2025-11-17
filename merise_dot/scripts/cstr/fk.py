@@ -33,6 +33,6 @@ class ForeignKeyConstraint(Constraint):
     def __str__(self) -> str:
         # assembling basic info
         ref = f"{self._pointed._name}.{self._on._name}"
-        text: str = f"foreign key({self._origin._name})\n\t\t\treferences {ref}"
+        text: str = f"foreign key({self._origin._name})\n\t\treferences {ref}"
         # formatting output
         return f"{super().__str__()}\n\t\t{text};"
