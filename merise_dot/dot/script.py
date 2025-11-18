@@ -23,6 +23,7 @@ class Script:
         :param graph: the MLD graph used for the conversion.
         """
         try:
+            self._core.db_name(graph._name)
             for name, ent in graph._entities.items():
                 self._core.mk_table(name)
                 for f_name, (f_type, st, nl) in ent._fields.items():
