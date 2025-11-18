@@ -13,9 +13,10 @@ class TableField:
 
     def pk(self) -> None:
         self._is_pk = True
+        self._nullable = False
 
     def nullable(self, null: bool = True) -> None:
-        self._nullable = null
+        self._nullable = null if not self._is_pk else False
 
     def ensure_default(self) -> None:
         self._default = tft_default(self._tf_type)
@@ -23,4 +24,7 @@ class TableField:
     def __str__(self) -> None:
         kind = " primary key" if self._is_pk else ""
         nla = "not null" if not self._nullable else ""
-        return f"{self._name} {self._tf_type}{kind}{nla}"
+        # field constraints
+        fln = f"{kind}{" " if nla and kind else ''}{nla}"
+        # assembling all text
+        return f"{self._name} {self._tf_type}{fln}"

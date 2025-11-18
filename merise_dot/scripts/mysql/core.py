@@ -16,6 +16,8 @@ class MySQLCore(SQLConversionKernel):
             return TableFieldType.INTEGER
         elif ft == TableFieldType.BOOLEAN.value:
             return TableFieldType.BOOLEAN
+        elif ft == TableFieldType.UUID.value:
+            return TableFieldType.UUID
         else:
             super().check_field_type(f_type)
 

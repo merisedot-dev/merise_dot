@@ -8,7 +8,7 @@ from merise_dot.dot import MCDBuilder
 @given("each entity has a primary key")
 def ensure_pk(context) -> None:
     for n, ent in context.graph._entities.items():
-        ent.add_field(f"pk_{n}", "string", True)
+        ent.add_field(f"pk_{n}", "int", True)
 
 
 @given("the entities {a:d} and {b:d} are linked")

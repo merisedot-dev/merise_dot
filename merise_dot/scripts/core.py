@@ -45,7 +45,12 @@ class SQLConversionKernel:
         """
         raise Exception("this core cannot parse types")
 
-    def mk_field(self, name: str, f_type: str, nullable: bool = True) -> None:
+    def mk_field(
+            self,
+            name: str,
+            f_type: str,
+            nullable: bool = True,
+            pk: bool = False) -> None:
         """Add a field into the current table we're editing.
 
         :param name: The field's name.
@@ -55,6 +60,8 @@ class SQLConversionKernel:
         if not self._current_table:
             raise Exception("You are not editing a table")
         field = TableField(name, self.check_field_type(f_type))
+        if pk:
+            field.pk()
         self._current_table.add_field(field)
 
     def mk_constraint(self, cstr: Constraint) -> None:

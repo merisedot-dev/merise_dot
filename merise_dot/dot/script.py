@@ -29,7 +29,8 @@ class Script:
                 for f_name, (f_type, st, nl) in ent._fields.items():
                     if st != _FK_CODE:
                         self._core.mk_field(
-                            f_name, f_type, st == _PK_CODE or not nl)
+                            f_name, f_type, st == _PK_CODE or not nl,
+                            st == _PK_CODE)
                     else:
                         pass # TODO handling foreign keys
                 self._core.close_table()
