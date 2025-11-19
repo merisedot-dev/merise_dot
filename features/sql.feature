@@ -29,7 +29,7 @@ Feature: SQL conversion of a graph
             |t2  |10|MySQL|
             |t3  |1 |MySQL|
 
-    Scenario Outline: Full on database
+    Scenario Outline: Full on database graph
         Given a graph named "<name>"
         And the graph has 5 entities
         And each entity has a primary key
