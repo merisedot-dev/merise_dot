@@ -1,15 +1,10 @@
 import os
 from behave import *
+from features.steps.aux import *
 
 from merise_dot.model.mcd import MCDLink
 from merise_dot.dot.script import Script
-from merise_dot.scripts import SQLConversionKernel, SQLTable, TableField, TableFieldType
-from merise_dot.scripts.mysql import MySQLCore
-
-# TODO define a conversion core map
-_CONVERSION_CORE_TABLE: dict[str | SQLConversionKernel] = {
-    "MySQL": MySQLCore()
-}
+from merise_dot.scripts import SQLTable, TableField, TableFieldType
 
 
 @given("{a:d} is linked to {b:d} by the cardinality ({cn:d},{cm})")
@@ -60,7 +55,7 @@ def insert_uid_fields(context, nb: int) -> None:
 
 @when("we select {name} as a conversion kernel")
 def core_selection(context, name: str) -> None:
-    context.core = _CONVERSION_CORE_TABLE[name]
+    context.core = choose_core(name)
 
 
 @when("we turn the MLD into an SQL script")
@@ -81,7 +76,7 @@ def check_script(context, f_name: str) -> None:
     with open(f"{os.getcwd()}/features/assets/{f_name}.sql", 'r') as file:
         contents = file.read().strip().replace('    ', '\t') # space constraint
     output: str = str(context.script)
-    print(str(contents))
+    print(str(output))
     assert output == contents
 
 
