@@ -73,7 +73,7 @@ class SQLConversionKernel:
 
     def __str__(self) -> str:
         drop = f"drop database {self._name};\n\ncreate database {self._name};"
-        # adding table conversion
+        # adding table conversion and constraints
         tablestr:str = f"{"\n\n".join(str(table) for table in self._tables)}"
         # assembling sections
         text = f"{drop}{f"\n\n{tablestr}" if tablestr else ""}"
