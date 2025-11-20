@@ -14,15 +14,6 @@ def establish_lk(context, a: int, b: int, cn: int, cm: str) -> None:
     lk.edit_card(context.graph.get_entity(f"e_{a - 1}"), cn, m_card)
 
 
-@given(
-    "the link between {a:d} and {b:d} also links {c:d} by cardinality ({cn:d},{cm})"
-)
-def ternary(context, a: int, b: int, c: int, cn: int, cm: str) -> None:
-    lk: MCDLink = context.graph.get_link(f"l_{min(a, b) - 1}_{max(a, b) - 1}")
-    m_card: int = -1 if cm == "n" else int(cm)
-    lk.add_card_str(f"e_{c - 1}", cn, m_card)
-
-
 @given("a SQL table named \"{name}\"")
 def mk_table(context, name: str) -> None:
     context.sql_table = SQLTable(name)

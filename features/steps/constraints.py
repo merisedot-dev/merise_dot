@@ -34,6 +34,36 @@ def ensure_table(context, table: str) -> None:
     context.constraint.set_table(table)
 
 
+@given("a new SQL table named \"{table}\"")
+def adding_table(context, table: str) -> None:
+    raise Exception("TODO")
+
+
+@given("the table has a primary key")
+def table_mkpk(context) -> None:
+    raise Exception("TODO")
+
+
+@given("the table has {n:d} fields")
+def table_nbfields(context, n: int) -> None:
+    raise Exception("TODO")
+
+
+@given("a new unique constraint named \"{name}\"")
+def mk_unq(context, name: str) -> None:
+    raise Exception("TODO")
+
+
+@given("{nu:d} fields from the table are unique")
+def unq_fields(context, nu: int) -> None:
+    raise Exception("TODO")
+
+
 @when("we turn the constraint into a string")
 def cstr_to_str(context) -> None:
     context.script = str(context.constraint)
+
+
+@then("the constraint script looks like \"{path}\"")
+def check_cstr_script(context, path: str) -> None:
+    raise Exception("TODO")
