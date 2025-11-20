@@ -51,18 +51,19 @@ def table_mkpk(context) -> None:
 def table_nbfields(context, n: int) -> None:
     for i in range(n):
         context.sql_table.add_field(
-            TableField(f"e_{i}", TableFieldType.INTEGER))
+            TableField(f"f_int_{i}", TableFieldType.INTEGER))
 
 
 @given("a new unique constraint named \"{name}\"")
 def mk_unq(context, name: str) -> None:
     context.constraint = UniqueConstraint(name)
+    context.constraint.set_table(context.sql_table._name)
 
 
 @given("{nu:d} fields from the table are unique")
 def unq_fields(context, nu: int) -> None:
     for i in range(nu):
-        context.constraint.add_field(context.sql_table._fields[f"e_{i}"])
+        context.constraint.add_field(context.sql_table._fields[f"f_int_{i}"])
 
 
 @when("we turn the constraint into a string")
