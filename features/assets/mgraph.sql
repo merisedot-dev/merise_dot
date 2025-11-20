@@ -9,11 +9,13 @@ create table e_0 (
 );
 
 create table e_1 (
-    pk_e_1 int primary key not null
+    pk_e_1 int primary key not null,
+    fk_e_2 int
 );
 
 create table e_2 (
-    pk_e_2 int primary key not null
+    pk_e_2 int primary key not null,
+    fk_e_1 int not null
 );
 
 create table e_3 (
@@ -31,15 +33,9 @@ create table lk_e_0_e_2_e_3 (
 );
 
 alter table e_1
-    add column fk_e2 int;
-
-alter table e_1
     add constraint fk_e_1_e_2
         foreign key(fk_e_2)
         references e_2.pk_e_2;
-
-alter table e_2
-    add column fk_e1 int not null;
 
 alter table e_2
     add constraint fk_e_2_e_1

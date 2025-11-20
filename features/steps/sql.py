@@ -1,4 +1,3 @@
-import os
 from behave import *
 from features.steps.aux import *
 
@@ -62,12 +61,8 @@ def convert_table(context) -> None:
 
 @then("the script piece looks like the script in \"{f_name}.sql\"")
 @then("the script is the same as \"{f_name}.sql\"")
-def check_script(context, f_name: str) -> None:
-    contents: str = ""
-    with open(f"{os.getcwd()}/features/assets/{f_name}.sql", 'r') as file:
-        contents = file.read().strip().replace('    ', '\t') # space constraint
-    output: str = str(context.script)
-    assert output == contents
+def check_tscript(context, f_name: str) -> None:
+    check_script(context, f_name)
 
 
 @then("the table script is the same as \"{f_name}.sql\"")

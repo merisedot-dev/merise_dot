@@ -21,7 +21,7 @@ Feature: Constraints management
         And a new unique constraint named "<sgbd>_test_unq"
         And <nu> fields from the table are unique
         When we turn the constraint into a string
-        Then the constraint script looks like "<sgbd>_unq_<table>.sql"
+        Then the constraint script looks like "<sgbd>_test_unq.sql"
 
         Examples:
             |sgbd |table|n|nu|

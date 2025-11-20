@@ -1,7 +1,8 @@
 from behave import *
+from features.steps.aux import *
 
-from merise_dot.scripts.cstr.fk import *
-from merise_dot.scripts.table import TableField, TableFieldType
+from merise_dot.scripts.cstr import *
+from merise_dot.scripts.table import SQLTable, TableField, TableFieldType
 
 
 @given("we're using the {sgbd} converter")
@@ -36,27 +37,32 @@ def ensure_table(context, table: str) -> None:
 
 @given("a new SQL table named \"{table}\"")
 def adding_table(context, table: str) -> None:
-    raise Exception("TODO")
+    context.sql_table: SQLTable = SQLTable(table)
 
 
 @given("the table has a primary key")
 def table_mkpk(context) -> None:
-    raise Exception("TODO")
+    field = TableField(f"pk_{context.sql_table._name}", TableFieldType.INTEGER)
+    field.pk() # it's not a PK otherwise
+    context.sql_table.add_field(field)
 
 
 @given("the table has {n:d} fields")
 def table_nbfields(context, n: int) -> None:
-    raise Exception("TODO")
+    for i in range(n):
+        context.sql_table.add_field(
+            TableField(f"e_{i}", TableFieldType.INTEGER))
 
 
 @given("a new unique constraint named \"{name}\"")
 def mk_unq(context, name: str) -> None:
-    raise Exception("TODO")
+    context.constraint = UniqueConstraint(name)
 
 
 @given("{nu:d} fields from the table are unique")
 def unq_fields(context, nu: int) -> None:
-    raise Exception("TODO")
+    for i in range(nu):
+        context.constraint.add_field(context.sql_table._fields[f"e_{i}"])
 
 
 @when("we turn the constraint into a string")
@@ -64,6 +70,6 @@ def cstr_to_str(context) -> None:
     context.script = str(context.constraint)
 
 
-@then("the constraint script looks like \"{path}\"")
+@then("the constraint script looks like \"{path}.sql\"")
 def check_cstr_script(context, path: str) -> None:
-    raise Exception("TODO")
+    check_script(context, f"constraints/{path}")
