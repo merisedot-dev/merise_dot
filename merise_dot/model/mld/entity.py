@@ -15,6 +15,7 @@ class MLDEntity:
     def __init__(self, name: str) -> None:
         self._name: str = name
         self._fields: dict[str | (str, int, bool)] = {}
+        self._links: dict[str | str] = {}
 
     def add_field(
             self,
@@ -38,3 +39,11 @@ class MLDEntity:
             if st == _PK_CODE:
                 return (t, st)
         raise Exception('no PK')
+
+    def add_link(self, other) -> None:
+        if type(other) != MLDEntity:
+            raise Exception("WTF")
+        name: str = f"fk_{other._name}"
+        ft, _ = other.get_pk()
+        self.add_field(name, ft, _FK_CODE)
+        self._links[name] = other._name

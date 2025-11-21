@@ -15,6 +15,9 @@ class Script:
         self._core: SQLConversionKernel = core
         self._script: str = ""
 
+    def mk_constraint(self) -> None:
+        pass # TODO
+
     def mk_sql(self, graph: MLDGraph) -> None:
         """Turn an MLD graph into the SQL script.
         In case of a problem encountered during the conversion, an exception shall
@@ -25,16 +28,14 @@ class Script:
         try:
             self._core.db_name(graph._name)
             for name, ent in graph._entities.items():
+                # entity transformations
                 self._core.mk_table(name)
                 for f_name, (f_type, st, nl) in ent._fields.items():
-                    if st != _FK_CODE:
-                        self._core.mk_field(
-                            f_name, f_type, st == _PK_CODE or not nl,
-                            st == _PK_CODE)
-                    else:
-                        pass # TODO handling foreign keys
+                    self._core.mk_field(
+                        f_name, f_type, st == _PK_CODE or not nl,
+                        st == _PK_CODE)
                 self._core.close_table()
-            # TODO transform constraints
+            # transform constraints
             self._script = str(self._core)
         except Exception as e:
             self._script = ""

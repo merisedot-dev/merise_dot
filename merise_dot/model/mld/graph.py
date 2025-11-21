@@ -42,16 +42,23 @@ class MLDGraph:
             raise Exception("can't find entity")
         self._entities[name.lower()].add_field(name, f_name, f_t, status)
 
-    def mk_link(self, ent_a: str, c_a: int, ent_b: str, c_b: int) -> None:
+    def mk_link(
+            self, ent_a: MLDEntity, c_a: int, ent_b: MLDEntity,
+            c_b: int) -> None:
         """Make a link between two entites in the MLD graph.
         This won't create any new entity unless it's necessary to make the link.
 
-        :param ent_a: the first entity's name.
+        :param ent_a: the first entity.
         :param c_a: the cardinality on entity A.
-        :param ent_b: the second entity's name.
+        :param ent_b: the second entity.
         :param c_b: the cardinality on entity B.
         """
-        if not ent_a.lower() in self._entities.keys() or not ent_b.lower(
-        ) in self._entities.keys():
+        if not ent_a._name in self._entities.keys(
+        ) or not ent_b._name in self._entities.keys():
             raise Exception('cannot find entities')
-        # TODO conversion algorithm
+        if c_a == 1 and c_b == 0:
+            pass # TODO
+        elif c_a == 0 and c_b == 1:
+            pass # TODO
+        else:
+            raise Exception("Both minimum cardinalities can't be 1")
