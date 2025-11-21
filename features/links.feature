@@ -19,7 +19,7 @@ Feature: Linking entities together.
             |0 |
             |1 |
             |2 |
-            |12[
+            |12|
 
     Scenario Outline: Removing cardinalities from link
         Given a link named "mdot"

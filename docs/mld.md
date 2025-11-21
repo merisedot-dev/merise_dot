@@ -4,7 +4,7 @@ Another aspect of the *merise* method is the *MLD* graphs. These are made to be 
 
 ## MLDBuilder
 
-Enter the `MLDBuilder` class. It provides a structure to turn an [MCD](mcd) graph into a MLD graph, provided no aberrations were slotted into the [MCD](mcd) graph. Turning an MCD graph this way starts like this :
+Enter the `MLDBuilder` class. It provides a structure to turn an [MCD](mcd.md) graph into a MLD graph, provided no aberrations were slotted into the [MCD](mcd.md) graph. Turning an MCD graph this way starts like this :
 
 ```py
 gr = Graph('trucos')
@@ -20,7 +20,7 @@ mld_gr = mld.get()
 
 In case of error during MLD building, the `mld_gr` variable will have `None` as a value, so it may cause problems later. During MLD build, any error will raise an exception and set the built graph back to `None`.
 
-Like for [MCD](mcd)s, dot graph enjoyers will also find the `MLDBuilder.render(path)` method. It will also not create the required file, but dump the MLD as a `.png` file next to the generated dotgraph.
+Like for [MCD](mcd.md)s, dot graph enjoyers will also find the `MLDBuilder.render(path)` method. It will also not create the required file, but dump the MLD as a `.png` file next to the generated dotgraph.
 
 ## Expected usage
 

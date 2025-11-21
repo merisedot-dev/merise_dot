@@ -12,7 +12,7 @@ SQL has... A lot of variants. To account for all of those, an interface will be 
 
 ```py
 md_script = Script()
-md_script.convert(MSQLCore())
+md_script.convert(MSQLCore()) # provided we want to use MySQL
 with open('/tmp/test') as file:
     md_script.write(file)
 ```
