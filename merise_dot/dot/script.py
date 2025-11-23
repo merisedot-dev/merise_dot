@@ -1,4 +1,6 @@
 from merise_dot.scripts import SQLConversionKernel
+from merise_dot.scripts.cstr import ForeignKeyConstraint, UniqueConstraint
+
 from merise_dot.model.mld import MLDGraph
 from merise_dot.model.mld.entity import _PK_CODE, _FK_CODE
 
@@ -15,8 +17,20 @@ class Script:
         self._core: SQLConversionKernel = core
         self._script: str = ""
 
-    def mk_constraint(self) -> None:
-        pass # TODO
+    def mk_fks(self, graph: MLDGraph) -> None:
+        for name, ent in graph._entities.items():
+            for f_name, (_, st, nl) in ent._fields.items():
+                if st != _FK_CODE:
+                    continue # nothing useful here
+                subname = f_name[3:len(f_name)]
+                dest = self._core.get_table(subname) # FIXME
+                cst = ForeignKeyConstraint(f"fk_{name}_{subname}")
+                # constraint contents
+                cst.set_table(name).origin(
+                    self._core.get_table(name)._fields[f_name]).points_to(
+                        dest).on_field(dest.get_pk())
+                # adding constraint to the conversion core
+                self._core.mk_constraint(cst)
 
     def mk_sql(self, graph: MLDGraph) -> None:
         """Turn an MLD graph into the SQL script.
@@ -34,8 +48,22 @@ class Script:
                     self._core.mk_field(
                         f_name, f_type, st == _PK_CODE or not nl,
                         st == _PK_CODE)
+                    # foreign keys on second pass
+                # transform constraints
+                # intermediate tables
+                if name[0:2] == "lk":
+                    cst = UniqueConstraint(f"unq_{name}")
+                    cst.set_table(name)
+                    for _, sf in self._core._current_table._fields.items():
+                        cst.add_field(sf)
+                    self._core.mk_constraint(cst)
+
+                # second pass for foreign keys
+                self.mk_fks(graph)
+
+                # writing script
                 self._core.close_table()
-            # transform constraints
+        # transform script into str
             self._script = str(self._core)
         except Exception as e:
             self._script = ""

@@ -13,6 +13,12 @@ class SQLTable:
             raise Exception("Field already in table")
         self._fields[field._name] = field
 
+    def get_pk(self) -> TableField:
+        for k, v in self._fields.items():
+            if k[0:2] == "pk":
+                return v
+        return None
+
     def __str__(self) -> str:
         fields = ",\n\t".join(str(field) for _, field in self._fields.items())
         inner = f"\t{fields}\n" if len(self._fields) > 0 else ""

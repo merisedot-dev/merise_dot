@@ -14,8 +14,9 @@ class SQLConversionKernel:
     def __init__(self) -> None:
         if type(self) == SQLConversionKernel:
             exit(-1) # this is abstract
-        self._current_table = None
+        self._current_table: SQLTable = None
         self._tables: list[SQLTable] = []
+        self._constraints: dict[str | Constraint] = {}
         self._name: str = ""
 
     def db_name(self, name: str) -> None:
@@ -29,6 +30,12 @@ class SQLConversionKernel:
         table: SQLTable = SQLTable(name)
         self._tables.append(table)
         self._current_table = table
+
+    def get_table(self,name:str)->SQLTable:
+        for t in self._tables:
+            if t._name==name:
+                return t
+        raise Exception(f"table {name} not found")
 
     def close_table(self) -> None:
         """Close the table we're writing into.
@@ -70,11 +77,15 @@ class SQLConversionKernel:
         :param cstr: The constraint builder to check the definition of said
         constraint.
         """
+        if cstr._name in self._constraints.keys():
+            raise Exception("Existing constraint")
+        self._constraints[cstr._name] = cstr
 
     def __str__(self) -> str:
         drop = f"drop database {self._name};\n\ncreate database {self._name};"
         # adding table conversion and constraints
-        tablestr:str = f"{"\n\n".join(str(table) for table in self._tables)}"
+        tablestr: str = f"{"\n\n".join(str(table) for table in self._tables)}"
+        cststr: str = f""
         # assembling sections
         text = f"{drop}{f"\n\n{tablestr}" if tablestr else ""}"
         # assembling all text
