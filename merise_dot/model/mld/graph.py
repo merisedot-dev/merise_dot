@@ -42,9 +42,25 @@ class MLDGraph:
             raise Exception("can't find entity")
         self._entities[name.lower()].add_field(name, f_name, f_t, status)
 
+    def _mk_lkent(self, a: MLDEntity, b: MLDEntity) -> None:
+        """Inner method to build intermediate entities.
+        The name is determined automatically.
+
+        :param a: first entity of the link
+        :param b: second entity of the link
+        """
+        name = f"lk_{a._name}_{b._name}"
+        # building the link
+        ent = MLDEntity(name)
+        # inner keys
+        ent.add_link(a, False)
+        ent.add_link(b, False)
+        # and into the graph we go
+        self._entities[name] = ent
+
     def mk_link(
-            self, ent_a: MLDEntity, c_a: int, ent_b: MLDEntity,
-            c_b: int) -> None:
+        self, ent_a: MLDEntity, c_a: (int, int), ent_b: MLDEntity,
+        c_b: (int, int)) -> None:
         """Make a link between two entites in the MLD graph.
         This won't create any new entity unless it's necessary to make the link.
 
@@ -56,9 +72,15 @@ class MLDGraph:
         if not ent_a._name in self._entities.keys(
         ) or not ent_b._name in self._entities.keys():
             raise Exception('cannot find entities')
-        if c_a == 1 and c_b == 0:
-            pass # TODO
-        elif c_a == 0 and c_b == 1:
-            pass # TODO
+        # splitting cards
+        min_a, max_a = c_a
+        min_b, max_b = c_b
+        # parsing cardinalities
+        if (min_a == 1 and min_b == 1) or (min_a == 0 and min_b == 0):
+            self._mk_lkent(ent_a, ent_b)
+        elif min_a == 1 and min_b == 0:
+            ent_a.add_link(ent_b)
+        elif min_a == 0 and min_b == 1:
+            ent_b.add_link(ent_a)
         else:
-            raise Exception("Both minimum cardinalities can't be 1")
+            raise Exception("Aberrant scenario")

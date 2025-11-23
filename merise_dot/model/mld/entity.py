@@ -40,10 +40,10 @@ class MLDEntity:
                 return (t, st)
         raise Exception('no PK')
 
-    def add_link(self, other) -> None:
+    def add_link(self, other, nullable: bool = True) -> None:
         if type(other) != MLDEntity:
             raise Exception("WTF")
         name: str = f"fk_{other._name}"
         ft, _ = other.get_pk()
-        self.add_field(name, ft, _FK_CODE)
+        self.add_field(name, ft, _FK_CODE, nullable)
         self._links[name] = other._name

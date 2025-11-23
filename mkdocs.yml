@@ -15,3 +15,4 @@ nav:
         - tables: sql_tables.md
       - constraints:
         - foreign keys: foreignkeys.md
+        - unique constraint: unique.md
