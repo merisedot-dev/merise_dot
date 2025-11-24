@@ -16,7 +16,7 @@ class SQLConversionKernel:
             exit(-1) # this is abstract
         self._current_table: SQLTable = None
         self._tables: list[SQLTable] = []
-        self._constraints: dict[str | Constraint] = {}
+        self._constraints: list[Constraint] = []
         self._name: str = ""
 
     def db_name(self, name: str) -> None:
@@ -69,6 +69,7 @@ class SQLConversionKernel:
         field = TableField(name, self.check_field_type(f_type))
         if pk:
             field.pk()
+        field.nullable(nullable)
         self._current_table.add_field(field)
 
     def mk_constraint(self, cstr: Constraint) -> None:
@@ -77,16 +78,17 @@ class SQLConversionKernel:
         :param cstr: The constraint builder to check the definition of said
         constraint.
         """
-        if cstr._name in self._constraints.keys():
-            raise Exception("Existing constraint")
-        self._constraints[cstr._name] = cstr
+        self._constraints.append(cstr)
 
     def __str__(self) -> str:
         drop = f"drop database {self._name};\n\ncreate database {self._name};"
         # adding table conversion and constraints
         tablestr: str = f"{"\n\n".join(str(table) for table in self._tables)}"
-        cststr: str = f""
+        cststr: str = f"{"\n\n".join(str(cst) for cst in self._constraints)}"
+        # preproc for text
+        pprctstr = f"\n\n{tablestr}" if tablestr else ""
+        pprcststr = f"\n\n{cststr}" if cststr else ""
         # assembling sections
-        text = f"{drop}{f"\n\n{tablestr}" if tablestr else ""}"
+        text = f"{drop}{pprctstr}{pprcststr}"
         # assembling all text
         return f"{_HEADER}\n\n{text}"

@@ -23,12 +23,12 @@ class Script:
                 if st != _FK_CODE:
                     continue # nothing useful here
                 subname = f_name[3:len(f_name)]
-                dest = self._core.get_table(subname) # FIXME
+                dest = self._core.get_table(subname)
                 cst = ForeignKeyConstraint(f"fk_{name}_{subname}")
                 # constraint contents
                 cst.set_table(name).origin(
                     self._core.get_table(name)._fields[f_name]).points_to(
-                        dest).on_field(dest.get_pk())
+                        dest).on_field(dest.get_pk()._name)
                 # adding constraint to the conversion core
                 self._core.mk_constraint(cst)
 
@@ -45,9 +45,9 @@ class Script:
                 # entity transformations
                 self._core.mk_table(name)
                 for f_name, (f_type, st, nl) in ent._fields.items():
+                    nullable = st == _PK_CODE or not nl
                     self._core.mk_field(
-                        f_name, f_type, st == _PK_CODE or not nl,
-                        st == _PK_CODE)
+                        f_name, f_type, nullable, st == _PK_CODE)
                     # foreign keys on second pass
                 # transform constraints
                 # intermediate tables
@@ -57,13 +57,12 @@ class Script:
                     for _, sf in self._core._current_table._fields.items():
                         cst.add_field(sf)
                     self._core.mk_constraint(cst)
-
-                # second pass for foreign keys
-                self.mk_fks(graph)
-
-                # writing script
+                # writing table to core
                 self._core.close_table()
-        # transform script into str
+
+            # second pass for foreign keys
+            self.mk_fks(graph)
+            # transform script into str
             self._script = str(self._core)
         except Exception as e:
             self._script = ""
