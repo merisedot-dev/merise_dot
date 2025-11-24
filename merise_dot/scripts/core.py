@@ -63,13 +63,15 @@ class SQLConversionKernel:
         :param name: The field's name.
         :param f_type: The field's type (pre-check)
         :param nullable: Wether the field can be null or not.
+        :param pk: Wether the field is a primary key or not.
         """
         if not self._current_table:
             raise Exception("You are not editing a table")
         field = TableField(name, self.check_field_type(f_type))
         if pk:
             field.pk()
-        field.nullable(nullable)
+        else:
+            field.nullable(nullable)
         self._current_table.add_field(field)
 
     def mk_constraint(self, cstr: Constraint) -> None:

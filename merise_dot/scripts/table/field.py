@@ -16,7 +16,6 @@ class TableField:
         self._nullable = False
 
     def nullable(self, nullable: bool = True) -> None:
-        print(f"{self._name} {nullable} {self._is_pk}")
         self._nullable = nullable if not self._is_pk else False
 
     def ensure_default(self) -> None:

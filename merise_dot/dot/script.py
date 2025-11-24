@@ -45,10 +45,10 @@ class Script:
                 # entity transformations
                 self._core.mk_table(name)
                 for f_name, (f_type, st, nl) in ent._fields.items():
-                    nullable = st == _PK_CODE or not nl
-                    self._core.mk_field(
-                        f_name, f_type, nullable, st == _PK_CODE)
-                    # foreign keys on second pass
+                    if st == _PK_CODE:
+                        self._core.mk_field(f_name, f_type, False, True)
+                    else:
+                        self._core.mk_field(f_name, f_type, nl)
                 # transform constraints
                 # intermediate tables
                 if name[0:2] == "lk":
