@@ -28,7 +28,7 @@ class MLDBuilder:
         mld_ent: MLDEntity = self._graph.get_ent(ent._name)
         for f_name, (f_type, prim) in ent._fields.items():
             mld_ent.add_field(
-                f_name, f_type, _PK_CODE if prim else _REGULAR_CODE)
+                f_name, f_type, _PK_CODE if prim else _REGULAR_CODE) # FIXME
 
     def mk_mld(self, graph: Graph) -> None:
         """Turn an MCD graph into an MLD one.

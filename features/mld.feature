@@ -89,3 +89,16 @@ Feature: MLD conversion from MCD graph.
             |1  |has   |2   |
             |12 |has   |13  |
             |15 |hasn't|15  |
+
+    Scenario Outline: Nullable links
+        Given a graph named "mdot"
+        And the graph has an entity named "t1"
+        And the graph has an entity named "t2"
+        And each entity has a primary key
+        And 1 is linked to 2 by the cardinality (<na>,<ma>)
+        And 2 is linked to 1 by the cardinality (<nb>,<mb>)
+        When we turn the graph into an MLD
+        Then the MLD has 2 entities
+
+        Examples:
+            |na|ma|nb|mb|
