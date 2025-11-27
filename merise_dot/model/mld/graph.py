@@ -57,30 +57,3 @@ class MLDGraph:
         ent.add_link(b, False)
         # and into the graph we go
         self._entities[name] = ent
-
-    def mk_link(
-        self, ent_a: MLDEntity, c_a: (int, int), ent_b: MLDEntity,
-        c_b: (int, int)) -> None:
-        """Make a link between two entites in the MLD graph.
-        This won't create any new entity unless it's necessary to make the link.
-
-        :param ent_a: the first entity.
-        :param c_a: the cardinality on entity A.
-        :param ent_b: the second entity.
-        :param c_b: the cardinality on entity B.
-        """
-        if not ent_a._name in self._entities.keys(
-        ) or not ent_b._name in self._entities.keys():
-            raise Exception('cannot find entities')
-        # splitting cards
-        min_a, max_a = c_a
-        min_b, max_b = c_b
-        # parsing cardinalities
-        if (min_a == 1 and min_b == 1) or (min_a == 0 and min_b == 0):
-            self._mk_lkent(ent_a, ent_b)
-        elif min_a == 1 and min_b == 0:
-            ent_a.add_link(ent_b)
-        elif min_a == 0 and min_b == 1:
-            ent_b.add_link(ent_a)
-        else:
-            raise Exception("Aberrant scenario")

@@ -1,5 +1,5 @@
 from graphviz import Graph as GGraph
-from merise_dot.model import Graph
+from merise_dot.model import MCDGraph
 from merise_dot.model.mcd import Entity, MCDLink
 
 
@@ -26,7 +26,7 @@ class MCDBuilder:
             self._info.edge(
                 lk._name, e_n, label=f"{min},{"n" if max==-1 else max}")
 
-    def mk_graph(self, graph: Graph) -> None:
+    def mk_graph(self, graph: MCDGraph) -> None:
 
         def frm_ent(ent: Entity) -> str:
             return f"""{{
