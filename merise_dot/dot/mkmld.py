@@ -36,7 +36,7 @@ class MLDBuilder:
         It does not return anything and isn't meant to be called by anything other
         than its own class.
 
-        :param graph: the MCD graph we're fetching data from.
+        :param graph: the MCD graph we're fetching extra data from.
         :param link: the link entity we're dealing wth.
         """
         src, dst = find_direction(link, LinkType.ONE2MANY)
@@ -47,6 +47,22 @@ class MLDBuilder:
         ent_dst: MLDEntity = self._graph.get_ent(dst)
         # adding corresponding foreign keys
         ent_src.add_link(ent_dst, n_src == 0)
+
+    def _mk_many2many(self, graph: MCDGraph, link: MCDLink) -> None:
+        """Inner builder for MANY2MANY situations.
+        This doesn't create any nonlink entity in the MLD graph.
+
+        :param graph: the MCD graph we're fetching extra data from.
+        :param link: the link entity we're dealing with.
+        """
+        self._graph.add_ent(link._name)
+        ent: MLDEntity = self._graph.get_ent(link._name)
+        # add foreign keys to link entity
+        for name, _ in link._entities.items():
+            ent.add_link(self._graph.get_ent(name), False)
+        # adding extra fields
+        for name, (ft, nl) in link._fields.items():
+            ent.add_field(name, ft, _REGULAR_CODE, nl)
 
     def mk_mld(self, graph: MCDGraph) -> None:
         """Turn an MCD graph into an MLD one.
@@ -69,7 +85,7 @@ class MLDBuilder:
                 if lt == LinkType.ONE2MANY:
                     self._mk_one2many(graph, lk)
                 elif lt == LinkType.MANY2MANY:
-                    pass # TODO
+                    self._mk_many2many(graph, lk)
         except Exception as e:
             self._graph = None
             raise e
