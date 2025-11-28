@@ -40,7 +40,6 @@ class MLDBuilder:
         :param link: the link entity we're dealing wth.
         """
         src, dst = find_direction(link, LinkType.ONE2MANY)
-        # fetching cardinalities
         n_src, _ = link.get_card(src)
         # fetching entities
         ent_src: MLDEntity = self._graph.get_ent(src)
@@ -64,6 +63,13 @@ class MLDBuilder:
         for name, (ft, nl) in link._fields.items():
             ent.add_field(name, ft, _REGULAR_CODE, nl)
 
+    def _mk_one2one(self, graph: MCDGraph, link: MCDLink) -> None:
+        """Inner builder for ONE2ONE situations.
+
+        :param graph: the MCD graph we're trying to transform into an MLD.
+        :param link: the link we're converting.
+        """
+
     def mk_mld(self, graph: MCDGraph) -> None:
         """Turn an MCD graph into an MLD one.
         We're not checking if the graph is well formed, as inner methods from the
@@ -86,6 +92,10 @@ class MLDBuilder:
                     self._mk_one2many(graph, lk)
                 elif lt == LinkType.MANY2MANY:
                     self._mk_many2many(graph, lk)
+                elif lt == LinkType.ONE2ONE:
+                    self._mk_one2one(graph, lk)
+                else:
+                    raise Exception("aberrant scenario")
         except Exception as e:
             self._graph = None
             raise e
