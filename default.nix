@@ -9,7 +9,7 @@
 }:
 
 let
-  merisedot_version = "2.0.0";
+  merisedot_version = "2.1.0";
 
   # build scripts
   hatch-build-scripts = python3Packages.buildPythonPackage rec {
