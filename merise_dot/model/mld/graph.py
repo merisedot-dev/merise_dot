@@ -42,16 +42,18 @@ class MLDGraph:
             raise Exception("can't find entity")
         self._entities[name.lower()].add_field(name, f_name, f_t, status)
 
-    def mk_link(self, ent_a: str, c_a: int, ent_b: str, c_b: int) -> None:
-        """Make a link between two entites in the MLD graph.
-        This won't create any new entity unless it's necessary to make the link.
+    def _mk_lkent(self, a: MLDEntity, b: MLDEntity) -> None:
+        """Inner method to build intermediate entities.
+        The name is determined automatically.
 
-        :param ent_a: the first entity's name.
-        :param c_a: the cardinality on entity A.
-        :param ent_b: the second entity's name.
-        :param c_b: the cardinality on entity B.
+        :param a: first entity of the link
+        :param b: second entity of the link
         """
-        if not ent_a.lower() in self._entities.keys() or not ent_b.lower(
-        ) in self._entities.keys():
-            raise Exception('cannot find entities')
-        # TODO conversion algorithm
+        name = f"lk_{a._name}_{b._name}"
+        # building the link
+        ent = MLDEntity(name)
+        # inner keys
+        ent.add_link(a, False)
+        ent.add_link(b, False)
+        # and into the graph we go
+        self._entities[name] = ent

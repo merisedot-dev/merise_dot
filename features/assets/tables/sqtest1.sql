@@ -1,0 +1,2 @@
+create table sqtest1 (
+);

@@ -33,6 +33,21 @@ def ensure_lk_card(context, name: str, min: int, max: str) -> None:
     lk.add_card_str(name, min, max_card)
 
 
+@given("\"{ent1}\" is linked to \"{ent2}\" by the cardinality ({n:d},{m})")
+def mld_mkfk(context, ent1: str, ent2: str, n: int, m: str) -> None:
+    # filtering constants
+    maxi = -1 if m == "n" else int(m)
+    lkname = f"lk_{min(ent1, ent2)}_{max(ent1, ent2)}"
+    # actual test
+    try: # link does exist
+        lk: MCDLink = context.graph.get_link(lkname) # FIXME
+        lk.edit_card(context.graph.get_entity(ent1), n, maxi)
+    except: # link does not exist
+        context.graph.add_link(lkname, ent1, ent2)
+        lk: MCDLink = context.graph.get_link(lkname)
+        lk.edit_card(context.graph.get_entity(ent1), n, maxi)
+
+
 @given("the graph is turned into an MLD")
 @when("we turn the graph into an MLD")
 def mk_mld(context) -> None:
@@ -55,7 +70,7 @@ def check_mld_nb_ents(context, nb: int) -> None:
 def check_mld_links(context, nb: int) -> None:
     seen: int = 0
     for _, ent in context.mld._entities.items():
-        for _, (_, st) in ent._fields.items():
+        for _, (_, st, nl) in ent._fields.items():
             if st == 3: # Found a foreign key
                 seen += 1
                 if seen > nb:
@@ -79,10 +94,38 @@ def check_mld_pk(context, name: str, status: str) -> None:
             assert False # something should have happened
 
 
+@then("the entity \"{ent1}\" has a foreign key to \"{ent2}\" (yes)")
 @then("the entity \"{ent1}\" has a foreign key to \"{ent2}\"")
 def check_mld_fk(context, ent1: str, ent2: str) -> None:
+    context.no_fk = False
     ent: MLDEntity = context.mld.get_ent(ent1)
-    for f_name, (_, st) in ent._fields.items():
+    for f_name, (ft, st, nl) in ent._fields.items():
         if f_name == f"fk_{ent2}" and st == 2: # 2 if FK code
+            context.fk = (ft, st, nl) # saving foreign key for later
             return # found correct fk
     assert False # should have found a key
+
+
+@then("the entity \"{ent1}\" has a foreign key to \"{ent2}\" (no)")
+def mld_no_fk(context, ent1: str, ent2: str) -> None:
+    context.no_fk = True
+    ent: MLDEntity = context.mld.get_ent(ent1)
+    for fn, (ft, st, nl) in ent._fields.items():
+        if fn == f"fk_{ent2}" and st == 2: # 2 is FK code
+            assert False # this should not be here
+
+
+@then("this field is nullable (yes)")
+def mld_nlfk(context) -> None:
+    if context.no_fk:
+        return
+    _, _, nl = context.fk # splitting back tuple
+    assert nl
+
+
+@then("this field is nullable (no)")
+def mld_nonlfk(context) -> None:
+    if context.no_fk:
+        return
+    _, _, nl = context.fk
+    assert not nl

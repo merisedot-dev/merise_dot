@@ -28,3 +28,45 @@ Feature: SQL conversion of a graph
             |test|5 |MySQL|
             |t2  |10|MySQL|
             |t3  |1 |MySQL|
+
+    Scenario Outline: Full on database graph
+        Given a graph named "<name>"
+        And the graph has 5 entities
+        And each entity has a primary key
+        And the entities 2 and 3 are linked
+        And 2 is linked to 3 by the cardinality (0,1)
+        And 3 is linked to 2 by the cardinality (1,1)
+        And the entities 3 and 4 are linked
+        And 3 is linked to 4 by the cardinality (0,n)
+        And 4 is linked to 3 by the cardinality (0,n)
+        And the graph is turned into an MLD
+        When we select <core> as a conversion kernel
+        And we turn the MLD into an SQL script
+        Then the script is the same as "<name>.sql"
+
+        Examples:
+            |name  |core |
+            |mgraph|MySQL|
+
+    Scenario: Empty tables
+        Given a SQL table named "sqtest1"
+        When we turn the table into script
+        Then the table script is the same as "sqtest1.sql"
+
+    Scenario Outline: Adding various fields
+        Given a SQL table named "<name>"
+        And the table has <nint> integer fields
+        And the table has <nbig> bigint fields
+        And the table has <nbool> boolean fields
+        And the table has <nuid> uuid fields
+        When we turn the table into script
+        Then the table script is the same as "<name>.sql"
+
+        Examples:
+            |name|nint|nbig|nbool|nuid|
+            |sqt |0   |0   |0    |0   |
+            |sqt2|4   |0   |0    |0   |
+            |sqt3|0   |3   |0    |0   |
+            |sqt4|0   |0   |6    |0   |
+            |sqt5|0   |0   |0    |2   |
+            |sqt6|2   |3   |1    |2   |

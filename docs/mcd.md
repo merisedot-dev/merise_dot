@@ -1,9 +1,9 @@
 # MCD manipulation
 
-MCDs are the bulk of the *merise* method and this doesn't change in `merise_dot`. This means most of the work you'll be doing using this library will require a MCD graph. Such graph can be created using the `merise_dot.model.Graph` class provided as well as its inner types. Remember, a MCD graph can be created using the following instruction :
+MCDs are the bulk of the *merise* method and this doesn't change in `merise_dot`. This means most of the work you'll be doing using this library will require a MCD graph. Such graph can be created using the `merise_dot.model.MCDGraph` class provided as well as its inner types. Remember, a MCD graph can be created using the following instruction :
 
 ```py
-my_mcd: Graph = Graph('my_mcd')
+my_mcd: MCDGraph = MCDGraph('my_mcd')
 ```
 
 The name of the graph will also determine the name of the file to write it to (in `$PWD` limits), so it needs to be filled in.
@@ -13,7 +13,7 @@ The name of the graph will also determine the name of the file to write it to (i
 Entities's definition is pretty simple, anyone who ever did a class diagram will recognize it pretty fast. However, it is discouraged to create them yourself, instead, you should use the provided graph method, like the code that follows :
 
 ```py
-my_ent: Entity = graph.add_entity('my_ent')
+my_ent: Entity = my_mcd.add_entity('my_ent')
 ```
 
 Provided you created a graph first. Names in MCD graph will always be lowercased and act as identifiers for Entites and fields, so do not try to edit these manually ! In a similar fashion, entity fetching and entity deletion should be handled only with the provided methods, `graph.get_entity` and `graph.del_entity`.
@@ -45,7 +45,7 @@ Once a field is created, editing a field will only mean changing one of two thin
 This kind of operation can be performed via the `edit_field` method, provided by the `merise_dot.model.mcd.Entity` class, like this :
 
 ```py
-graph = Graph('test')
+graph = MCDGraph('test')
 ent = graph.add_entity('test')
 ent.add_field('pk_t', 'int')
 ent.edit_field('pk_t', prim=True) # we change the primary key status
@@ -58,9 +58,9 @@ And finally, the `entity.del_field` method is here to allow field deletion, thus
 
 method              |reason for exception
 --------------------|-------------------------------------------
-`Graph.add_entity`  |the entity exists and can't be overwritten
-`Graph.get_entity`  |the entity doesn't exist
-`Graph.del_entity`  |the entity doesn't exist
+`MCDGraph.add_entity`  |the entity exists and can't be overwritten
+`MCDGraph.get_entity`  |the entity doesn't exist
+`MCDGraph.del_entity`  |the entity doesn't exist
 
 #### Entity methods
 
@@ -76,7 +76,7 @@ method              |reason for exception
 Links are the other part of the MCD graph manipulation. Unlike Entities, they can't be created in a standalone fashion, which ends up in code like this :
 
 ```py
-graph = Graph('test')
+graph = MCDGraph('test')
 ent_1 = graph.add_entity('truc')
 ent_2 = graph.add_entity('jaaj')
 # link creation

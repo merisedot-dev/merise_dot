@@ -12,7 +12,7 @@ SQL has... A lot of variants. To account for all of those, an interface will be 
 
 ```py
 md_script = Script()
-md_script.convert(MSQLCore())
+md_script.convert(MSQLCore()) # provided we want to use MySQL
 with open('/tmp/test') as file:
     md_script.write(file)
 ```
@@ -32,6 +32,8 @@ Any generated script, with any Conversion kernel given with `merise_dot` (we won
 - primary and foreign key constraints
 - nullable and non-nullable fields
 - link tables for ternaries
+
+Please keep in mind that more specific constraints will need to be integrated manually, preferably in another script to avoid overwriting the existing script everytime we run the conversion algorithm. Front-ends for `merise_dot` allowing for the creation and edition of such specific constraints should have a way to keep these changes in memory to ensure they are in the final script (looking at you, [merise_gtk](https://github.com/merisedot-dev/merise_gtk)).
 
 The specifics then may vary depending on which Conversion kernel you used. As of now, only these ones are planned, more on their use later down the page :
 

@@ -3,7 +3,7 @@ from .mcd import Entity, MCDLink, entity_parse, link_parse
 from .errors import *
 
 
-class Graph:
+class MCDGraph:
     """Merise database graph.
     This is a MCD-compliant graph only as of now, conversions will be done
     later on.
@@ -84,13 +84,13 @@ class Graph:
             }}"""
 
 
-def graph_parse(info: str) -> Graph:
+def graph_parse(info: str) -> MCDGraph:
     """Parsing a new graph from a file's content.
 
     :param info:
     """
     json_info = json.loads(info)
-    g = Graph(json_info["name"])
+    g = MCDGraph(json_info["name"])
     # adding entities
     for entity in json_info["entities"]:
         en = entity_parse(entity)

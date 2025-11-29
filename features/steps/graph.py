@@ -1,6 +1,6 @@
 import json, random
 from behave import *
-from merise_dot.model import Graph, graph_parse
+from merise_dot.model import MCDGraph, graph_parse
 from merise_dot.model.mcd import Entity
 
 
@@ -12,7 +12,7 @@ def no_graph(context) -> None:
 @given("a graph named \"{name}\"")
 @when("we create a new graph named \"{name}\"")
 def init_graph(context, name: str) -> None:
-    context.graph = Graph(name)
+    context.graph = MCDGraph(name)
 
 
 @given("the graph has {n:d} entities")

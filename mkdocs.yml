@@ -9,4 +9,10 @@ nav:
   - Graphs:
     - MCD: mcd.md
     - MLD: mld.md
-    - SQL: sql.md
+    - SQL: 
+      - conversion: sql.md
+      - semantics:
+        - tables: sql_tables.md
+      - constraints:
+        - foreign keys: foreignkeys.md
+        - unique constraint: unique.md

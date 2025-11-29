@@ -1,5 +1,8 @@
 from merise_dot.scripts import SQLConversionKernel
+from merise_dot.scripts.cstr import ForeignKeyConstraint, UniqueConstraint
+
 from merise_dot.model.mld import MLDGraph
+from merise_dot.model.mld.entity import _PK_CODE, _FK_CODE
 
 
 class Script:
@@ -14,6 +17,21 @@ class Script:
         self._core: SQLConversionKernel = core
         self._script: str = ""
 
+    def mk_fks(self, graph: MLDGraph) -> None:
+        for name, ent in graph._entities.items():
+            for f_name, (_, st, nl) in ent._fields.items():
+                if st != _FK_CODE:
+                    continue # nothing useful here
+                subname = f_name[3:len(f_name)]
+                dest = self._core.get_table(subname)
+                cst = ForeignKeyConstraint(f"fk_{name}_{subname}")
+                # constraint contents
+                cst.set_table(name).origin(
+                    self._core.get_table(name)._fields[f_name]).points_to(
+                        dest).on_field(dest.get_pk()._name)
+                # adding constraint to the conversion core
+                self._core.mk_constraint(cst)
+
     def mk_sql(self, graph: MLDGraph) -> None:
         """Turn an MLD graph into the SQL script.
         In case of a problem encountered during the conversion, an exception shall
@@ -21,6 +39,36 @@ class Script:
 
         :param graph: the MLD graph used for the conversion.
         """
+        try:
+            self._core.db_name(graph._name)
+            for name, ent in graph._entities.items():
+                # entity transformations
+                self._core.mk_table(name)
+                for f_name, (f_type, st, nl) in ent._fields.items():
+                    if st == _PK_CODE:
+                        self._core.mk_field(f_name, f_type, False, True)
+                    else:
+                        self._core.mk_field(f_name, f_type, nl)
+                # transform constraints
+                # intermediate tables
+                if name[0:2] == "lk":
+                    cst = UniqueConstraint(f"unq_{name}")
+                    cst.set_table(name)
+                    for _, sf in self._core._current_table._fields.items():
+                        cst.add_field(sf)
+                    self._core.mk_constraint(cst)
+                # writing table to core
+                self._core.close_table()
+
+            # second pass for foreign keys
+            self.mk_fks(graph)
+            # transform script into str
+            self._script = str(self._core)
+        except Exception as e:
+            self._script = ""
+            raise e
 
     def __str__(self) -> str:
-        return ""
+        if not self._script:
+            raise Exception("Cannot find a converted script")
+        return self._script
