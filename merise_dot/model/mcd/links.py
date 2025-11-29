@@ -11,30 +11,56 @@ class MCDLink:
         self._fields: dict[str | str] = {}
 
     def add_card(self, entity: Entity, min: int, max: int) -> None:
+        """Add cardinalities to link entity.
+
+        :param entity: the other MCD entity to link.
+        :param min: the minimum cardinality of the link (mostly 0 or 1).
+        :param max: the max cardinality (-1 is "n").
+        """
         self.add_card_str(entity._name, min, max)
 
     def add_card_str(self, entity: str, min: int, max: int) -> None:
         """Add cardinalities to link entity.
+        This is the from_string variant of `MCDLink.add_card`.
 
-        :param entity:
-        :param min:
-        :param max:
+        :param entity: the name of the linked entity.
+        :param min: the minimum cardinality (usually 0 or 1).
+        :param max: the max cardinality (1 or -1 for "n").
         """
         if entity in self._entities.keys():
             return # silent fail
         self._entities[entity] = (min, max)
 
     def del_card_str(self, card: str) -> None:
+        """Removes an entity from the link.
+        In case of unknown entity, this will just silently fail.
+
+        :param card: the name of the linked entity.
+        """
         if not (card in self._entities.keys()):
             return # silent fail
         self._entities.pop(card)
 
     def get_card(self, card: str) -> (int, int):
+        """Fetches the inner data for a linked entity.
+        For an MCD, we'll only care about the cardinality values. In case of an
+        unknown entity, this will silently fail.
+
+        :returns: a tuple (min,max) for the given entity.
+        """
         if not (card in self._entities.keys()):
             return None
         return self._entities[card.lower()]
 
     def edit_card(self, entity: Entity, c_min: int, c_max: int) -> None:
+        """Swap cardinality info.
+        This will only work for known entities, otherwise you will get an exception
+        thrown your way.
+
+        :param entity: the MCD entity we want to tweak.
+        :param c_min: the minimum cardinality (0 or 1)
+        :param c_max: the max cardinality (-1 is still "n")
+        """
         if not entity._name in self._entities.keys():
             raise Exception('cannot edit unknown cardinality')
         self._entities[entity._name] = (c_min, c_max)

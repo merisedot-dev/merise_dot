@@ -69,6 +69,16 @@ class MLDBuilder:
         :param graph: the MCD graph we're trying to transform into an MLD.
         :param link: the link we're converting.
         """
+        name0: str = list(link._entities.keys())[0]
+        name1: str = list(link._entities.keys())[1]
+        n0, _ = link._entities[name0]
+        n1, _ = link._entities[name1]
+        # fetching relevant entities
+        ent0: MLDEntity = self._graph.get_ent(name0)
+        ent1: MLDEntity = self._graph.get_ent(name1)
+        # adding links to right entities
+        ent0.add_link(ent1, n0 == 0)
+        ent1.add_link(ent0, n1 == 0)
 
     def mk_mld(self, graph: MCDGraph) -> None:
         """Turn an MCD graph into an MLD one.

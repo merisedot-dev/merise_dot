@@ -8,7 +8,8 @@ from merise_dot.scripts import SQLTable, TableField, TableFieldType
 
 @given("{a:d} is linked to {b:d} by the cardinality ({cn:d},{cm})")
 def establish_lk(context, a: int, b: int, cn: int, cm: str) -> None:
-    lk: MCDLink = context.graph.get_link(f"l_{min(a, b) - 1}_{max(a, b) - 1}")
+    lk: MCDLink = context.graph.get_link(
+        f"lk_e{min(a, b) - 1}_e{max(a, b) - 1}")
     m_card: int = -1 if cm == "n" else int(cm)
     lk.edit_card(context.graph.get_entity(f"e_{a - 1}"), cn, m_card)
 
