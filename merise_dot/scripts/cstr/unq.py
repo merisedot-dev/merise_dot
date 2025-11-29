@@ -18,6 +18,6 @@ class UniqueConstraint(Constraint):
         if len(self._fields) == 0:
             raise Exception("You are supposed to make some fields unique")
         # assembling text
-        text = f"unique({", ".join(n for n in self._fields.keys())});"
+        text = f"unique ({", ".join(n for n in self._fields.keys())});"
         # formatting output
         return f"{super().__str__()}\n\t\t{text}"

@@ -26,7 +26,7 @@ create table e_4 (
     pk_e_4 int primary key not null
 );
 
-create table lk_e_2_e_3 (
+create table lk_e2_e3 (
     fk_e_2 int not null,
     fk_e_3 int not null
 );
@@ -45,12 +45,12 @@ alter table e_2
         foreign key(fk_e_1)
         references e_1.pk_e_1;
 
-alter table lk_e_2_e_3
+alter table lk_e2_e3
     add constraint fk_lk_e2_e3_e_2
         foreign key(fk_e_2)
         references e_2.pk_e_2;
 
-alter table lk_e_2_e_3
+alter table lk_e2_e3
     add constraint fk_lk_e2_e3_e_3
         foreign key(fk_e_3)
         references e_3.pk_e_3;
